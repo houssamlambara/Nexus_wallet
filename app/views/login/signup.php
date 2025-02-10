@@ -61,10 +61,6 @@
         <!-- Second Column -->
         <div>
           <div class="mb-4">
-            <label for="nexusID" class="block text-sm font-medium mb-2">NexusID</label>
-            <input type="text" id="nexusID" name="nexusID" class="w-full px-4 py-3 input-field rounded-lg focus:outline-none" placeholder="Enter your NexusID" required>
-          </div>
-          <div class="mb-4">
             <label for="email" class="block text-sm font-medium mb-2">Email</label>
             <input type="email" id="email" name="email" class="w-full px-4 py-3 input-field rounded-lg focus:outline-none" placeholder="Enter your email" required>
           </div>
