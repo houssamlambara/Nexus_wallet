@@ -41,7 +41,7 @@
       <h1 class="text-3xl font-bold mb-2">Create Your Account</h1>
       <p class="text-gray-300">Join Nexus Crypto Wallet to manage your portfolio</p>
     </div>
-    <form id="registerForm">
+    <form id="registerForm" action='register' method='post'>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- First Column -->
         <div>
@@ -82,11 +82,11 @@
   </div>
 
   <script>
-    document.getElementById('registerForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-      alert('Verification email sent! Please check your inbox.');
-      // Add logic to send verification email and handle registration
-    });
+    // document.getElementById('registerForm').addEventListener('submit', function (e) {
+    //   e.preventDefault();
+    //   alert('Verification email sent! Please check your inbox.');
+    //   // Add logic to send verification email and handle registration
+    // });
   </script>
 </body>
 </html>

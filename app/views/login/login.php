@@ -41,7 +41,7 @@
       <h1 class="text-3xl font-bold mb-2">Welcome Back</h1>
       <p class="text-gray-300">Login to access your Nexus Crypto Wallet</p>
     </div>
-    <form id="loginForm">
+    <form id="loginForm" action='../login/login' type="submit">
       <div class="mb-6">
         <label for="email" class="block text-sm font-medium mb-2">Email</label>
         <input type="email" id="email" name="email" class="w-full px-4 py-3 input-field rounded-lg focus:outline-none" placeholder="Enter your email" required>

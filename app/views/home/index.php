@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CritoX - Advanced Crypto Trading Platform</title>
+    <title>Nexus - Advanced Crypto Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script>
@@ -73,10 +73,7 @@
                         <i class="fas fa-dollar-sign"></i>
                         <span>Sell</span>
                     </a>
-                    <a href="#" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
-                        <i class="fas fa-exchange-alt"></i>
-                        <span>Trade</span>
-                    </a>
+                    
                     <a href="#" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
                         <i class="fas fa-chart-line"></i>
                         <span>Markets</span>
@@ -84,8 +81,9 @@
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <button class="hidden md:flex items-center space-x-2 text-gray-400 hover:text-white transition-colors">
-                        <i class="fas fa-moon"></i>
+                    <button class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
+                        <i class="fas fa-wallet"></i>
+                        <span></span>
                     </button>
                     <button class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
                         <i class="fas fa-wallet"></i>
