@@ -1,14 +1,16 @@
 <?php
-class DatabaseConnection {
+class DatabaseConnection
+{
     private static $instance = null;
     private $connection;
 
-    private function __construct() {
+    private function __construct()
+    {
         try {
             $dsn = "pgsql:host=localhost;dbname=nexus2";
             $username = "postgres";
-            $password = "root";
-    
+            $password = "mohamed@1230";
+
             $this->connection = new PDO($dsn, $username, $password);
 
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -16,20 +18,20 @@ class DatabaseConnection {
             die("Database connection failed: " . $e->getMessage());
         }
     }
-    
 
-    public static function getInstance() {
+
+    public static function getInstance()
+    {
         if (self::$instance == null) {
             self::$instance = new DatabaseConnection();
         }
         return self::$instance;
     }
 
-    public function getConnection() {
+    public function getConnection()
+    {
         return $this->connection;
     }
 
     private function clone() {}
 }
-
-?>

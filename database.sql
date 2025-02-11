@@ -48,3 +48,10 @@ CREATE TABLE wallets (
     balance DECIMAL(18,8) DEFAULT 0, -- Quantité détenue
     UNIQUE (user_id, crypto_id) -- Un utilisateur ne peut avoir qu'un seul wallet par crypto
 );
+CREATE TABLE transaction(
+    id SERIAL PRIMARY KEY ,
+    crypto_id INT ,
+   FOREIGN KEY (crypto_id) REFERENCES  cryptos(id),
+   price float ,
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

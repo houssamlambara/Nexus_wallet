@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,8 +21,12 @@
                     },
                     keyframes: {
                         float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
+                            '0%, 100%': {
+                                transform: 'translateY(0)'
+                            },
+                            '50%': {
+                                transform: 'translateY(-10px)'
+                            },
                         }
                     }
                 }
@@ -34,18 +39,22 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
         .crypto-card {
             transition: transform 0.3s ease;
         }
+
         .crypto-card:hover {
             transform: translateY(-5px);
         }
+
         .glass-effect {
             backdrop-filter: blur(10px);
             background: rgba(255, 255, 255, 0.1);
         }
     </style>
 </head>
+
 <body class="bg-dark text-white">
     <!-- Floating Elements -->
     <div class="fixed w-full h-full pointer-events-none">
@@ -63,7 +72,7 @@
                     </div>
                     <span class="text-2xl font-bold">CritoX</span>
                 </div>
-                
+
                 <div class="hidden md:flex space-x-8">
                     <a href="#" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
                         <i class="fas fa-shopping-cart"></i>
@@ -73,7 +82,7 @@
                         <i class="fas fa-dollar-sign"></i>
                         <span>Sell</span>
                     </a>
-                    
+
                     <a href="#" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
                         <i class="fas fa-chart-line"></i>
                         <span>Markets</span>
@@ -117,7 +126,7 @@
                             <span>Watch Demo</span>
                         </button>
                     </div>
-                    
+
                     <!-- Trust Badges -->
                     <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
                         <div class="flex items-center space-x-2">
@@ -138,7 +147,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="md:w-1/2 relative">
                     <div class="relative z-10 animate-float">
                         <img src="../../../public/img/brcImg.webp" alt="Trading Platform" class="rounded-2xl shadow-2xl">
@@ -278,7 +287,7 @@
 
                 <div class="crypto-card bg-dark p-6 rounded-xl">
                     <div class="flex items-center space-x-4 mb-4">
-                    <div class="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center">
+                        <div class="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center">
                             <i class="fas fa-chart-pie text-purple-500"></i>
                         </div>
                         <div>
@@ -518,7 +527,7 @@
         // Mobile menu toggle
         const mobileMenuBtn = document.querySelector('#mobile-menu-btn');
         const mobileMenu = document.querySelector('#mobile-menu');
-        
+
         if (mobileMenuBtn && mobileMenu) {
             mobileMenuBtn.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
@@ -526,4 +535,5 @@
         }
     </script>
 </body>
+
 </html>
