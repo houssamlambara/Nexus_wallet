@@ -5,7 +5,7 @@ class DatabaseConnection {
 
     private function __construct() {
         try {
-            $dsn = "pgsql:host=localhost;dbname=nexus";
+            $dsn = "pgsql:host=localhost;dbname=nexus2";
             $username = "postgres";
             $password = "root";
     

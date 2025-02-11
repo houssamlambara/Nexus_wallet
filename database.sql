@@ -1,17 +1,18 @@
 -- Création de la base de données
-CREATE DATABASE nexus;
+CREATE DATABASE nexus2;
 
-\c nexus;
+\c nexus2;
 
 -- Création de la table des utilisateurs
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    first_name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
-    birth_date DATE NOT NULL,
-    nexus_id VARCHAR(20) UNIQUE NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    password_hash TEXT NOT NULL,
+    first_name VARCHAR(50) ,
+    last_name VARCHAR(50) ,
+    birth_date DATE ,
+    nexus_id VARCHAR(20) UNIQUE ,
+    email VARCHAR(100) UNIQUE ,
+    actif boolean default 'false',
+    password_hash TEXT ,
     usdt_balance DECIMAL(18,8) DEFAULT 0, -- Solde USDT de l'utilisateur
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -19,9 +20,9 @@ CREATE TABLE users (
 -- Création de la table des cryptomonnaies
 CREATE TABLE cryptos (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    symbol VARCHAR(10) UNIQUE NOT NULL,
-    slug VARCHAR(100) UNIQUE NOT NULL,
+    name VARCHAR(100) ,
+    symbol VARCHAR(10) UNIQUE ,
+    slug VARCHAR(100) UNIQUE ,
     max_supply BIGINT,
     market_cap DECIMAL(18,2),
     volume_24h DECIMAL(18,2),
