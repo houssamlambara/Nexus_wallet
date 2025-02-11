@@ -76,7 +76,7 @@
                 $stmt->bindParam(':email', $this->email);
                 $stmt->bindParam(':password', $this->password);
                 $stmt->bindParam(':birth_date', $this->date_of_birth);
-                $nexus_id = uniqid('NX_');  // Génération d'un ID unique
+                $nexus_id = 'NX_' . bin2hex(random_bytes(8));  // Génération d'un ID unique
                 $stmt->bindParam(':nexus_id', $nexus_id);
                 if ($stmt->execute()) {
                     $this->id_user = $pdo->lastInsertId();

@@ -70,7 +70,7 @@
                     if ($user->register()) {
                         $_SESSION['user_id'] = $user->get_id();
                         $_SESSION['user_name'] = $user->get_first_name();
-                        header("Location: index");
+//                        header("Location: index");
                         exit();
                     } else {
                         throw new Exception("Échec de l'enregistrement");
