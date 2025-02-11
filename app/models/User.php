@@ -7,15 +7,16 @@
         private $email;
         private $password;
         private $nexus_id;
-        public function __construct($id_user, $first_name, $last_name, $date_of_birth, $email, $password, $nexus_id){
-            $this->id_user = $id_user; 
+        public function __construct($id_user = null, $first_name = null, $last_name = null, $date_of_birth = null, $email = null, $password = null, $nexus_id = null){
+            $this->id_user = $id_user;
             $this->first_name = $first_name;
             $this->last_name = $last_name;
             $this->date_of_birth = $date_of_birth;
-            $this->email = $email; 
+            $this->email = $email;
             $this->password = $password;
             $this->nexus_id = $nexus_id;
         }
+
         public function get_first_name(){
             return $this->first_name;
         }
@@ -66,16 +67,17 @@
                 }
                 echo 'added successfully';
 
-                $sql = "INSERT INTO users (first_name, last_name, email, password_hash, birth_date, created_at) 
-                        VALUES (:first_name, :last_name, :email, :password, :dob, CURRENT_TIMESTAMP)";
-                
+                $sql = "INSERT INTO users (first_name, last_name, email, password_hash, birth_date, nexus_id, created_at) 
+        VALUES (:first_name, :last_name, :email, :password, :birth_date, :nexus_id, CURRENT_TIMESTAMP)";
+
                 $stmt = $pdo->prepare($sql);
                 $stmt->bindParam(':first_name', $this->first_name);
                 $stmt->bindParam(':last_name', $this->last_name);
                 $stmt->bindParam(':email', $this->email);
                 $stmt->bindParam(':password', $this->password);
-                $stmt->bindParam(':dob', $this->dob);
-    
+                $stmt->bindParam(':birth_date', $this->date_of_birth);
+                $nexus_id = uniqid('NX_');  // Génération d'un ID unique
+                $stmt->bindParam(':nexus_id', $nexus_id);
                 if ($stmt->execute()) {
                     $this->id_user = $pdo->lastInsertId();
                     return true;
