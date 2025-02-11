@@ -64,7 +64,8 @@
                 if (strlen($this->password) < 6) {
                     throw new Exception("Password must be at least 6 characters long");
                 }
-                
+                echo 'added successfully';
+
                 $sql = "INSERT INTO users (first_name, last_name, email, password_hash, birth_date, created_at) 
                         VALUES (:first_name, :last_name, :email, :password, :dob, CURRENT_TIMESTAMP)";
                 

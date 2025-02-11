@@ -44,7 +44,7 @@
     public function register(){
         $this->view('login/signup', []);
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
-            if (empty($_POST['nom']) || empty($_POST['prenom']) || empty($_POST['email']) || empty($_POST['password']) || empty($_POST['type_user'])) {
+            if (empty($_POST['first_name']) || empty($_POST['last_name']) || empty($_POST['email']) || empty($_POST['password']) ) {
                 echo "Tous les champs sont obligatoires.";
                 exit;
             }

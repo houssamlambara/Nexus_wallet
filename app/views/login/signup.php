@@ -41,7 +41,7 @@
       <h1 class="text-3xl font-bold mb-2">Create Your Account</h1>
       <p class="text-gray-300">Join Nexus Crypto Wallet to manage your portfolio</p>
     </div>
-    <form id="registerForm" action='register' method='post'>
+    <form id="registerForm" action='index' method='post'>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- First Column -->
         <div>
