@@ -1,21 +1,12 @@
 <?php
-// echo "<pre>";
-// print_r($data);
-// foreach ($data['data'] as $coin) {
-//     echo ($coin['id']);
-
-// }
-print_r($_SESSION['user_id']);
-print_r($_SESSION['usdt_balance']);
-print_r($_SESSION['user_name']);
-
-
-
-
-
+session_start();
+var_dump($_SESSION['usdt_balance']);
 
 
 ?>
+
+
+
 
 
 <!DOCTYPE html>
@@ -122,8 +113,6 @@ print_r($_SESSION['user_name']);
             </div>
         </div>
     </nav>
-
-    <!-- Hero Section -->
     <section class="relative overflow-hidden px-12 max-h-[90vh]">
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row items-center justify-between">
@@ -203,49 +192,6 @@ print_r($_SESSION['user_name']);
             </div>
         </div>
     </section>
-
-    <!-- Features Section -->
-    <section class="py-20">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">
-                    Why Choose <span class="gradient-text">CritoX</span>
-                </h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">
-                    Experience the next generation of crypto trading with our cutting-edge features and unmatched security.
-                </p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Feature Cards -->
-                <div class="crypto-card bg-dark-light p-8 rounded-xl">
-                    <div class="w-14 h-14 bg-blue-500/20 rounded-lg flex items-center justify-center mb-6">
-                        <i class="fas fa-gift text-blue-500 text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">Earn up to 15% APY</h3>
-                    <p class="text-gray-400">Maximize your crypto holdings with our competitive reward rates.</p>
-                </div>
-
-                <div class="crypto-card bg-dark-light p-8 rounded-xl">
-                    <div class="w-14 h-14 bg-purple-500/20 rounded-lg flex items-center justify-center mb-6">
-                        <i class="fas fa-robot text-purple-500 text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">Smart Trading Tools</h3>
-                    <p class="text-gray-400">Advanced algorithms and tools to optimize your trading strategy.</p>
-                </div>
-
-                <div class="crypto-card bg-dark-light p-8 rounded-xl">
-                    <div class="w-14 h-14 bg-green-500/20 rounded-lg flex items-center justify-center mb-6">
-                        <i class="fas fa-chart-bar text-green-500 text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">Real-time Analytics</h3>
-                    <p class="text-gray-400">Track market movements and make informed decisions.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Popular Coins Section -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-8">
         <?php if (isset($data['data'])): ?>
             <?php foreach ($data['data'] as $coin): ?>
@@ -324,138 +270,6 @@ print_r($_SESSION['user_name']);
             </div>
         <?php endif; ?>
     </div>
-
-    <!-- Mobile App Section -->
-    <section class="py-20 px-12">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row items-center">
-                <div class="md:w-1/2 mb-10 md:mb-0">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-6">
-                        Trade Anywhere with Our
-                        <span class="gradient-text">Mobile App</span>
-                    </h2>
-                    <p class="text-gray-400 mb-8">
-                        Download our mobile app to trade on the go. Available for iOS and Android devices.
-                    </p>
-                    <div class="flex space-x-4">
-                        <button class="flex items-center space-x-2 bg-dark-light hover:bg-gray-800 px-6 py-3 rounded-xl transition-colors">
-                            <i class="fab fa-apple text-2xl"></i>
-                            <div class="text-left">
-                                <div class="text-xs">Download on the</div>
-                                <div class="text-sm font-bold">App Store</div>
-                            </div>
-                        </button>
-                        <button class="flex items-center space-x-2 bg-dark-light hover:bg-gray-800 px-6 py-3 rounded-xl transition-colors">
-                            <i class="fab fa-google-play text-2xl"></i>
-                            <div class="text-left">
-                                <div class="text-xs">Get it on</div>
-                                <div class="text-sm font-bold">Google Play</div>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-                <div class="md:w-1/2">
-                    <img src="/api/placeholder/400/800" alt="Mobile App" class="rounded-3xl shadow-2xl mx-auto">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section class="py-20 bg-dark-light px-12">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">
-                    What Our Users Say
-                </h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">
-                    Join thousands of satisfied users who trust CritoX for their crypto trading needs.
-                </p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Testimonial Cards -->
-                <div class="crypto-card bg-dark p-8 rounded-xl">
-                    <div class="flex items-center space-x-4 mb-6">
-                        <img src="/api/placeholder/48/48" alt="User" class="w-12 h-12 rounded-full">
-                        <div>
-                            <h4 class="font-bold">Alex Thompson</h4>
-                            <span class="text-gray-400 text-sm">Crypto Trader</span>
-                        </div>
-                    </div>
-                    <p class="text-gray-400 mb-4">
-                        "The best crypto trading platform I've used. Clean interface and excellent customer support."
-                    </p>
-                    <div class="flex text-yellow-500">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                </div>
-
-                <div class="crypto-card bg-dark p-8 rounded-xl">
-                    <div class="flex items-center space-x-4 mb-6">
-                        <img src="/api/placeholder/48/48" alt="User" class="w-12 h-12 rounded-full">
-                        <div>
-                            <h4 class="font-bold">Sarah Chen</h4>
-                            <span class="text-gray-400 text-sm">Investment Analyst</span>
-                        </div>
-                    </div>
-                    <p class="text-gray-400 mb-4">
-                        "Outstanding security features and the earning rewards program is fantastic!"
-                    </p>
-                    <div class="flex text-yellow-500">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                </div>
-
-                <div class="crypto-card bg-dark p-8 rounded-xl">
-                    <div class="flex items-center space-x-4 mb-6">
-                        <img src="/api/placeholder/48/48" alt="User" class="w-12 h-12 rounded-full">
-                        <div>
-                            <h4 class="font-bold">Michael Roberts</h4>
-                            <span class="text-gray-400 text-sm">Long-term Investor</span>
-                        </div>
-                    </div>
-                    <p class="text-gray-400 mb-4">
-                        "The analytical tools have helped me make better trading decisions. Highly recommended!"
-                    </p>
-                    <div class="flex text-yellow-500">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="py-20">
-        <div class="container mx-auto px-6">
-            <div class="bg-gradient-to-r from-blue-600 to-blue-400 rounded-2xl p-12 text-center">
-                <h2 class="text-3xl md:text-4xl font-bold mb-6">
-                    Start Your Crypto Journey Today
-                </h2>
-                <p class="text-lg mb-8 max-w-2xl mx-auto">
-                    Join millions of users worldwide and start trading cryptocurrencies with confidence.
-                </p>
-                <button class="bg-white text-blue-600 px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors">
-                    Create Free Account
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
     <footer class="bg-dark-light pt-20 pb-10 px-12">
         <div class="container mx-auto px-6">
             <div class="grid md:grid-cols-4 gap-12 mb-16">
@@ -533,7 +347,6 @@ print_r($_SESSION['user_name']);
             </div>
         </div>
     </footer>
-
     <script>
         // Add scroll animation for navbar
         window.addEventListener('scroll', function() {
