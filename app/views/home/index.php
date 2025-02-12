@@ -141,7 +141,7 @@
                 
                 <div class="md:w-1/2 relative">
                     <div class="relative z-10 animate-float">
-                        <img src="../../../public/img/brcImg.webp" alt="Trading Platform" class="rounded-2xl shadow-2xl">
+                        <img src=img/brcImg.webp" alt="Trading Platform" class="rounded-2xl shadow-2xl">
                         <!-- Floating Elements -->
                         <div class="absolute -top-6 -left-6 w-20 h-20 bg-blue-500/20 rounded-full animate-pulse"></div>
                         <div class="absolute -bottom-6 -right-6 w-20 h-20 bg-purple-500/20 rounded-full animate-pulse"></div>
