@@ -65,7 +65,6 @@
                 if (strlen($this->password) < 6) {
                     throw new Exception("Password must be at least 6 characters long");
                 }
-                echo 'added successfully';
 
                 $sql = "INSERT INTO users (first_name, last_name, email, password_hash, birth_date, nexus_id, created_at) 
         VALUES (:first_name, :last_name, :email, :password, :birth_date, :nexus_id, CURRENT_TIMESTAMP)";
@@ -80,6 +79,7 @@
                 $stmt->bindParam(':nexus_id', $nexus_id);
                 if ($stmt->execute()) {
                     $this->id_user = $pdo->lastInsertId();
+                    echo 'added successfully';
                     return true;
                 }
             } catch (PDOException $e) {
@@ -104,6 +104,17 @@
             }
         }
 
-
+        public static function findByVerificationToken($token) {
+            $DB = DatabaseConnection::getInstance()->getConnection();
+            $stmt = $db->prepare("SELECT * FROM users WHERE verification_token = ?");
+            $stmt->execute([$token]);
+            return $stmt->fetch();
+        }
+    
+        public static function markAsVerified($userId) {
+            $DB = DatabaseConnection::getInstance()->getConnection();
+            $stmt = $db->prepare("UPDATE users SET is_verified = 1 WHERE id = ?");
+            return $stmt->execute([$userId]);
+        }
     }
 ?>
