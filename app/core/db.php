@@ -5,9 +5,9 @@ class DatabaseConnection {
 
     private function __construct() {
         try {
-            $dsn = "pgsql:host=localhost;dbname=nexus";
+            $dsn = "pgsql:host=localhost;dbname=nexus2";
             $username = "postgres";
-            $password = "root";
+            $password = "mohamed@1230";
     
             $this->connection = new PDO($dsn, $username, $password);
 
