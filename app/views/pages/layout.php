@@ -45,43 +45,43 @@
             <nav class="flex-1 p-4">
     <ul class="space-y-2">
         <li>
-            <a href="dashboard.php" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 text-gray-400 hover:text-white transition-colors">
+            <a href="dashboard" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 text-gray-400 hover:text-white transition-colors">
                 <i class="fas fa-home"></i>
                 <span>Dashboard</span>
             </a>
         </li>
         <li>
-            <a href="reception.php" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 text-gray-400 hover:text-white transition-colors">
+            <a href="reception" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 text-gray-400 hover:text-white transition-colors">
                 <i class="fas fa-download"></i>
                 <span>Réception</span>
             </a>
         </li>
         <li>
-            <a href="envoi.php" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 text-gray-400 hover:text-white transition-colors">
+            <a href="envoi" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 text-gray-400 hover:text-white transition-colors">
                 <i class="fas fa-paper-plane"></i>
                 <span>Envoi</span>
             </a>
         </li>
         <li>
-            <a href="achat.php" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 text-gray-400 hover:text-white transition-colors">
+            <a href="achat" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 text-gray-400 hover:text-white transition-colors">
                 <i class="fas fa-shopping-cart"></i>
                 <span>Buy</span>
             </a>
         </li>
         <li>
-            <a href="vente.php" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 text-gray-400 hover:text-white transition-colors">
+            <a href="vente" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 text-gray-400 hover:text-white transition-colors">
                 <i class="fas fa-dollar-sign"></i>
                 <span>Sell</span>
             </a>
         </li>
         <li>
-            <a href="transaction.php" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 text-gray-400 hover:text-white transition-colors">
+            <a href="transaction" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 text-gray-400 hover:text-white transition-colors">
                 <i class="fas fa-exchange-alt"></i>
                 <span>Transactions</span>
             </a>
         </li>
         <li>
-            <a href="watchlist.php" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 text-gray-400 hover:text-white transition-colors">
+            <a href="watchlist" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 text-gray-400 hover:text-white transition-colors">
                 <i class="fas fa-star"></i>
                 <span>Watchlist</span>
             </a>

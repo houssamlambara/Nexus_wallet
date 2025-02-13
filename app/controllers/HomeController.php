@@ -31,7 +31,7 @@
                     if ($user && password_verify($password, $user['password_hash'])) {
                         $_SESSION['user_id'] = $user['id'];
                         $_SESSION['user_name'] = $user['first_name'];
-                        header("Location: index");
+                        header("Location: http://localhost/Nexus_wallet/dashboard");
                         exit();
                     } else {
                         echo "<script>alert('Email ou mot de passe incorrect !');</script>";
