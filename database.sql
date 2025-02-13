@@ -57,3 +57,10 @@ CREATE TABLE transactions
     recipient_id     INT                                                                 REFERENCES users (id) ON DELETE SET NULL,
     created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+CREATE TABLE transaction(
+    id SERIAL PRIMARY KEY ,
+    crypto_id INT ,
+   FOREIGN KEY (crypto_id) REFERENCES  cryptos(id),
+   price float ,
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

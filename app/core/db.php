@@ -5,9 +5,9 @@ class DatabaseConnection {
 
     private function __construct() {
         try {
-            $dsn = "pgsql:host=localhost;dbname=nexus2";
+            $dsn = "pgsql:host=localhost;dbname=nexus";
             $username = "postgres";
-            $password = "mohamed@1230";
+            $password = "root";
     
             $this->connection = new PDO($dsn, $username, $password);
 
@@ -16,7 +16,7 @@ class DatabaseConnection {
             die("Database connection failed: " . $e->getMessage());
         }
     }
-    
+
 
     public static function getInstance() {
         if (self::$instance == null) {
