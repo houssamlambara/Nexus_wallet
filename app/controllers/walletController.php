@@ -17,7 +17,7 @@ class WalletController extends Controller
 
 
     }
-    public function showWallet()
+    public function home()
     {
         $user_id = 2;
         $userBalance = $this->userModel->getUserBalance($user_id);
@@ -31,7 +31,7 @@ class WalletController extends Controller
         ];
 
         // Pass separate data variables
-        $this->view('pages/wallet', [
+        $this->view('pages/dashboard', [
             'staticCryptos' => $staticCryptos,
             'userBalance'   => $userBalance,
             'wallets'       => $wallets
