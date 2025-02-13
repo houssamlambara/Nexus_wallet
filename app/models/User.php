@@ -103,6 +103,26 @@
                 exit();
             }
         }
+        public function getUserBalance($user_id) {
+            $pdo = DatabaseConnection::getInstance()->getConnection();
+            $query = "SELECT usdt_balance FROM users WHERE id = :user_id";
+            $stmt = $pdo->prepare($query);
+            $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchColumn() ?: 0.00;
+        }
+
+        public function getUserWallets($user_id) {
+            $pdo = DatabaseConnection::getInstance()->getConnection();
+            $query = "SELECT c.name, c.symbol, w.balance 
+                  FROM wallets w
+                  JOIN cryptos c ON w.crypto_id = c.id
+                  WHERE w.user_id = :user_id";
+            $stmt = $pdo->prepare($query);
+            $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
 
 
     }

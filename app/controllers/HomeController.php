@@ -70,7 +70,7 @@
                     if ($user->register()) {
                         $_SESSION['user_id'] = $user->get_id();
                         $_SESSION['user_name'] = $user->get_first_name();
-//                        header("Location: index");
+                       header("Location: index");
                         exit();
                     } else {
                         throw new Exception("Échec de l'enregistrement");
@@ -84,5 +84,31 @@
         public function test(){
         echo 'test';
     }
-}
+        public function updateBalance($user_id, $amount) {
+            // Fetch current balance
+            $currentBalance = $this->userModel->getUserBalance($user_id);
+
+            if ($currentBalance === false) {
+                return ["success" => false, "message" => "User not found."];
+            }
+
+            // Calculate new balance
+            $newBalance = $currentBalance + $amount;
+
+            // Prevent negative balance
+            if ($newBalance < 0) {
+                return ["success" => false, "message" => "Insufficient balance."];
+            }
+
+            // Update the balance in the database
+            $updated = $this->userModel->updateUserBalance($user_id, $newBalance);
+
+            if ($updated) {
+                return ["success" => true, "message" => "Balance updated successfully.", "newBalance" => $newBalance];
+            } else {
+                return ["success" => false, "message" => "Failed to update balance."];
+            }
+        }
+
+    }
 ?>
