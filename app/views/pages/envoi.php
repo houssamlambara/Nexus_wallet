@@ -1,28 +1,10 @@
 <?php
 
-
+$titre = 'Envoyer des Cryptos';
 ob_start();
 ?>
 
-        <!-- Main Content -->
-        <main class="ml-64 flex-1 min-h-screen">
-            <!-- Top Navigation -->
-            <header class="bg-dark-light border-b border-gray-800 sticky top-0 z-50">
-                <div class="flex items-center justify-between p-4">
-                    <div class="flex items-center space-x-4">
-                        <h1 class="text-xl font-bold">Envoyer des Cryptos</h1>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <button class="p-2 hover:bg-gray-800 rounded-lg text-gray-400 hover:text-white transition-colors">
-                            <i class="fas fa-bell"></i>
-                        </button>
-                        <div class="flex items-center space-x-2">
-                            <img src="/api/placeholder/32/32" alt="Profile" class="w-8 h-8 rounded-full">
-                            <span class="text-sm font-medium">John Doe</span>
-                        </div>
-                    </div>
-                </div>
-            </header>
+
 
             <!-- Crypto Send Form -->
             <div class="p-6">
@@ -31,7 +13,7 @@ ob_start();
                         <h3 class="font-bold">Envoyer des Cryptomonnaies</h3>
                     </div>
                     <div class="px-6 py-4">
-                        <form action="#" method="POST">
+                        <form action="http://localhost/Nexus_wallet/envoiController/sendUsdt" method="POST">
                             <div class="space-y-4">
                                 <!-- Recipient NexusID or Email -->
                                 <div>
@@ -46,7 +28,7 @@ ob_start();
                                         <option value="BTC">Bitcoin (BTC)</option>
                                         <option value="ETH">Ethereum (ETH)</option>
                                         <option value="LTC">Litecoin (LTC)</option>
-                                        <option value="ADA">Cardano (ADA)</option>
+                                        <option value="USDT">USDT (USDT)</option>
                                         <!-- Add more cryptos as needed -->
                                     </select>
                                 </div>
@@ -60,7 +42,7 @@ ob_start();
 
                                 <!-- Confirm Send Button -->
                                 <div class="mt-4">
-                                    <button type="submit" class="w-full py-2 px-4 bg-primary text-white rounded-lg hover:bg-blue-600 transition-colors">
+                                    <button name="send" type="submit" class="w-full py-2 px-4 bg-primary text-white rounded-lg hover:bg-blue-600 transition-colors">
                                         Confirmer l'envoi
                                     </button>
                                 </div>
@@ -69,6 +51,25 @@ ob_start();
                     </div>
                 </div>
             </div>
+            
+            <?php
+
+                    // if(isset($_SESSION['alert'])){
+                    //     $getArr = $_SESSION['alert'];
+                    //     if($getArr[0] === 'success'){
+                    //         echo '<span class="text-red-600">'.$getArr[1].'</span>';
+                    //         unset($_SESSION['alert']);
+                    //     }elseif($getArr[1] === 'success'){
+                    //         echo '<span class="text-green-600">'.$getArr[1].'</span>';
+                    //         unset($_SESSION['alert']);
+                    //     }else{
+                    //         echo '<span class="text-green-600">hi</span>';
+
+                    //     }
+                    // }
+
+
+                    ?>
         </main>
 
     <script>

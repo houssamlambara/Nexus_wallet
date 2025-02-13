@@ -110,11 +110,11 @@ print_r($_SESSION['user_name']);
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <a href='homeController/login' class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
+                    <a href='http://localhost/Nexus_wallet/homeController/login' class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
                         <i class="fas fa-wallet"></i>
                         <span>Login</span>
                     </a>
-                    <a href='homeController/register' class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
+                    <a href='http://localhost/Nexus_wallet/homeController/register' class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
                         <i class="fas fa-wallet"></i>
                         <span>Register</span>
                     </a>
@@ -170,7 +170,7 @@ print_r($_SESSION['user_name']);
 
                 <div class="md:w-1/2 relative">
                     <div class="relative z-10 animate-float">
-                        <img src="../../../public/img/brcImg.webp" alt="Trading Platform" class="rounded-2xl shadow-2xl">
+                        <img src=img/brcImg.webp" alt="Trading Platform" class="rounded-2xl shadow-2xl">
                         <!-- Floating Elements -->
                         <div class="absolute -top-6 -left-6 w-20 h-20 bg-blue-500/20 rounded-full animate-pulse"></div>
                         <div class="absolute -bottom-6 -right-6 w-20 h-20 bg-purple-500/20 rounded-full animate-pulse"></div>

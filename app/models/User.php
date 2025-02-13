@@ -66,6 +66,7 @@ class User
         }
     }
 
+
     // Method for user registration
     public function register()
     {
@@ -118,6 +119,29 @@ class User
             return false;
         }
     }
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(':first_name', $this->first_name);
+                $stmt->bindParam(':last_name', $this->last_name);
+                $stmt->bindParam(':email', $this->email);
+                $stmt->bindParam(':password', $this->password);
+                $stmt->bindParam(':birth_date', $this->date_of_birth);
+                $nexus_id = 'NX_' . bin2hex(random_bytes(8));  // Génération d'un ID unique
+                $stmt->bindParam(':nexus_id', $nexus_id);
+                if ($stmt->execute()) {
+                    $this->id_user = $pdo->lastInsertId();
+                    echo 'added successfully';
+                    return true;
+                }
+            } catch (PDOException $e) {
+                echo "Erreur d'inscription: " . $e->getMessage();
+                return false;
+            } catch (Exception $e) {
+                echo "Erreur: " . $e->getMessage();
+                return false;
+            }
+        }
+
+
 
     // Static method to log out
     public static function logout()
@@ -131,4 +155,20 @@ class User
             exit();
         }
     }
-}
+
+
+        public static function findByEmail($email) {
+            $DB = DatabaseConnection::getInstance()->getConnection();
+            $stmt = $DB->prepare("SELECT * FROM users WHERE email = ?");
+            $stmt->execute([$email]);
+            return $stmt->fetch();
+        }
+
+        public static function markAsVerified($userId) {
+            $DB = DatabaseConnection::getInstance()->getConnection();
+            $stmt = $DB->prepare("UPDATE users SET is_verified = 1 WHERE id = ?");
+            return $stmt->execute([$userId]);
+        }
+
+    }
+?>
