@@ -119,29 +119,6 @@ class User
             return false;
         }
     }
-                $stmt = $pdo->prepare($sql);
-                $stmt->bindParam(':first_name', $this->first_name);
-                $stmt->bindParam(':last_name', $this->last_name);
-                $stmt->bindParam(':email', $this->email);
-                $stmt->bindParam(':password', $this->password);
-                $stmt->bindParam(':birth_date', $this->date_of_birth);
-                $nexus_id = 'NX_' . bin2hex(random_bytes(8));  // Génération d'un ID unique
-                $stmt->bindParam(':nexus_id', $nexus_id);
-                if ($stmt->execute()) {
-                    $this->id_user = $pdo->lastInsertId();
-                    echo 'added successfully';
-                    return true;
-                }
-            } catch (PDOException $e) {
-                echo "Erreur d'inscription: " . $e->getMessage();
-                return false;
-            } catch (Exception $e) {
-                echo "Erreur: " . $e->getMessage();
-                return false;
-            }
-        }
-
-
 
     // Static method to log out
     public static function logout()
