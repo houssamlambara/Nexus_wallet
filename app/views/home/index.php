@@ -94,7 +94,7 @@ print_r($_SESSION['user_name']);
                 </div>
 
                 <div class="hidden md:flex space-x-8">
-                    <a href="#" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
+                    <a href="<?php echo  URLROOT . 'WatchlistController/chihaja' ?>" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
                         <i class="fas fa-shopping-cart"></i>
                         <span>Buy</span>
                     </a>
@@ -103,7 +103,7 @@ print_r($_SESSION['user_name']);
                         <span>Sell</span>
                     </a>
 
-                    <a href="http://localhost/Nexus_wallet/marcket/marcket1" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
+                    <a href="<?php echo URLROOT . 'marcket/marcket1'; ?>" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
                         <i class="fas fa-chart-line"></i>
                         <span>Markets</span>
                     </a>

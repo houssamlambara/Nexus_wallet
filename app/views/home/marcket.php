@@ -1,9 +1,7 @@
 <?php
 session_start();
-var_dump($_SESSION['usdt_balance']);
+var_dump($_SESSION['user_id']) ?>;
 
-
-?>
 
 
 
@@ -85,7 +83,7 @@ var_dump($_SESSION['usdt_balance']);
                 </div>
 
                 <div class="hidden md:flex space-x-8">
-                    <a href="#" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
+                    <a href="http://localhost/Nexus_wallet/marcket/marcket1" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
                         <i class="fas fa-shopping-cart"></i>
                         <span>Buy</span>
                     </a>
@@ -197,9 +195,9 @@ var_dump($_SESSION['usdt_balance']);
             <?php foreach ($data['data'] as $coin): ?>
                 <div class="bg-dark-light rounded-xl p-6 hover:shadow-lg transition-all duration-300 border border-gray-800 relative">
                     <!-- Add Star Button with Hidden Form -->
-                    <form action="watchlist/add" method="POST" class="absolute top-4 right-4">
-                        <input type="hidden" name="coin_id" value="<?php echo htmlspecialchars($coin['id']); ?>">
-                        <input type="hidden" name="coin_name" value="<?php echo htmlspecialchars($coin['name']); ?>">
+                    <form action="<?php echo URLROOT . 'watchlistcontroller/addcrypto'; ?>" method="POST" class="absolute top-4 right-4">
+                        <input type="hidden" name="crypto_id" value="<?php echo htmlspecialchars($coin['id']); ?>">
+                        <input type="hidden" name="crypto_name" value="<?php echo htmlspecialchars($coin['name']); ?>">
                         <input type="hidden" name="coin_symbol" value="<?php echo htmlspecialchars($coin['symbol'] ?? ''); ?>">
                         <input type="hidden" name="coin_price" value="<?php echo htmlspecialchars($coin['current_price'] ?? ''); ?>">
                         <?php if (isset($coin['image'])): ?>

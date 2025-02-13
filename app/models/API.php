@@ -1,17 +1,20 @@
 <?php
-
 class API
 {
-    public function getdatafromapi()
-    {
-        $apiUrl = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1";
-        // $apiKey = "YOUR_API_KEY";
+    private $cacheFile = "cache/crypto_data.json"; // Store cached data
+    private $cacheTime = 300; // 5 minutes cache
 
-        // Headers should be a single string
+    public function getDataFromApi()
+    {
+        // Check if cached data exists and is still valid
+        if (file_exists($this->cacheFile) && (time() - filemtime($this->cacheFile) < $this->cacheTime)) {
+            return json_decode(file_get_contents($this->cacheFile), true);
+        }
+
+        $apiUrl = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1";
         $options = [
             "http" => [
-                "header" => "X-CMC_PRO_API_KEY:\r\n" .
-                    "Accept: application/json\r\n" .
+                "header" => "Accept: application/json\r\n" .
                     "User-Agent: MyCryptoApp/1.0\r\n",
                 "method" => "GET"
             ]
@@ -20,18 +23,20 @@ class API
         $context = stream_context_create($options);
         $result = file_get_contents($apiUrl, false, $context);
 
-        // Handle errors properly
         if ($result === false) {
             return ["error" => "Failed to fetch data from the API."];
         }
 
-        // Decode JSON to an associative array
         $data = json_decode($result, true);
-
-        // Ensure valid JSON response
         if ($data === null) {
             return ["error" => "Invalid JSON response from API."];
         }
+
+        // Cache the data to reduce API calls
+        if (!is_dir("cache")) {
+            mkdir("cache", 0777, true);
+        }
+        file_put_contents($this->cacheFile, json_encode($data));
 
         return $data;
     }
