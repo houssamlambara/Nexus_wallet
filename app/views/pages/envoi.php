@@ -31,7 +31,7 @@ ob_start();
                         <h3 class="font-bold">Envoyer des Cryptomonnaies</h3>
                     </div>
                     <div class="px-6 py-4">
-                        <form action="#" method="POST">
+                        <form action="http://localhost/Nexus_wallet/envoiController/sendUsdt" method="POST">
                             <div class="space-y-4">
                                 <!-- Recipient NexusID or Email -->
                                 <div>
@@ -46,7 +46,7 @@ ob_start();
                                         <option value="BTC">Bitcoin (BTC)</option>
                                         <option value="ETH">Ethereum (ETH)</option>
                                         <option value="LTC">Litecoin (LTC)</option>
-                                        <option value="ADA">Cardano (ADA)</option>
+                                        <option value="USDT">USDT (USDT)</option>
                                         <!-- Add more cryptos as needed -->
                                     </select>
                                 </div>
@@ -60,7 +60,7 @@ ob_start();
 
                                 <!-- Confirm Send Button -->
                                 <div class="mt-4">
-                                    <button type="submit" class="w-full py-2 px-4 bg-primary text-white rounded-lg hover:bg-blue-600 transition-colors">
+                                    <button name="send" type="submit" class="w-full py-2 px-4 bg-primary text-white rounded-lg hover:bg-blue-600 transition-colors">
                                         Confirmer l'envoi
                                     </button>
                                 </div>
@@ -69,6 +69,25 @@ ob_start();
                     </div>
                 </div>
             </div>
+            
+            <?php
+
+                    // if(isset($_SESSION['alert'])){
+                    //     $getArr = $_SESSION['alert'];
+                    //     if($getArr[0] === 'success'){
+                    //         echo '<span class="text-red-600">'.$getArr[1].'</span>';
+                    //         unset($_SESSION['alert']);
+                    //     }elseif($getArr[1] === 'success'){
+                    //         echo '<span class="text-green-600">'.$getArr[1].'</span>';
+                    //         unset($_SESSION['alert']);
+                    //     }else{
+                    //         echo '<span class="text-green-600">hi</span>';
+
+                    //     }
+                    // }
+
+
+                    ?>
         </main>
 
     <script>
