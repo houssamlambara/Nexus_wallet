@@ -4,7 +4,7 @@
         private $userModel;
 
         public function __construct(){
-            $this->userModel = $this->model('User', null, '', '', '', '', '', null);
+            $this->userModel = $this->model('User');
         }
 
         public function index() {
@@ -15,72 +15,73 @@
             if (isset($_SESSION['user_id'])) {
                 session_unset();
                 session_destroy();
-                header("Location: index");  
+                header("Location: index");
+                exit();
             }
         }
 
+
         public function loginAction(){
             if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
-                if (isset($_POST['email']) && isset($_POST['password']) && !empty($_POST['email']) && !empty($_POST['password'])) {
+                if (!empty($_POST['email']) && !empty($_POST['password'])) {
                     $email = trim($_POST['email']);
                     $password = $_POST['password'];
                     $user = User::login($email);
 
-                    if (password_verify($password, $user['password_hash'])) {
+                    if ($user && password_verify($password, $user['password_hash'])) {
                         $_SESSION['user_id'] = $user['id'];
                         $_SESSION['user_name'] = $user['first_name'];
-                        echo 'succes';
-
-                        // header("Location: ../home/index");
+                        header("Location: index");
+                        exit();
                     } else {
-                    echo "<script>alert('Le mot de passe est incorrecte !');</script>";
-                    header("Refresh: 0; URL=index");
+                        echo "<script>alert('Email ou mot de passe incorrect !');</script>";
+                        echo '<meta http-equiv="refresh" content="0;url=index">';
+                    }
+                } else {
+                    echo "<script>alert('Veuillez remplir tous les champs !');</script>";
+                    echo '<meta http-equiv="refresh" content="0;url=index">';
                 }
-            } else {
-                echo "<script>alert('Veuillez remplir tous les champs !');</script>";
-                header("Refresh: 0; URL=index");
             }
         }
-    }
 
-    public function login(){
+
+        public function login(){
         $this->view('login/login', []);
     }
     public function register(){
         $this->view('login/signup', []);
     }
-    public function registerAction(){
-        // print_r($_POST);
-        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
-            if (empty($_POST['firstName']) || empty($_POST['lastName']) || empty($_POST['email']) || empty($_POST['password']) ) {
-                echo "Tous les champs sont obligatoires.";
-                exit;
-            }
-        
-            $first_name = htmlspecialchars($_POST['firstName']);
-            $last_name = htmlspecialchars($_POST['lastName']);
-            $dob = htmlspecialchars($_POST['dob']);
-            $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-            $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-            // $nexusID = $_POST['nexusID'];
-        
-            try {
-                $user = $this->model('User',null, $first_name, $last_name, $dob, $email, $password, null);
-                if ($user->register()) {
-                    echo 'succes';
-                    session_start();
-                    $_SESSION['user_id'] = $user->get_id();
-                    $_SESSION['user_name'] = $user->get_first_name();
-                    header("Location: index");
-                } else {
-                    throw new Exception("Échec de l'enregistrement");
+        public function registerAction(){
+            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
+                if (empty($_POST['firstName']) || empty($_POST['lastName']) || empty($_POST['email']) || empty($_POST['password']) ) {
+                    echo "Tous les champs sont obligatoires.";
+                    exit;
                 }
-            } catch (Exception $e) {
-                echo "Erreur : " . $e->getMessage();
+
+                $first_name = htmlspecialchars($_POST['firstName']);
+                $last_name = htmlspecialchars($_POST['lastName']);
+                $dob = $_POST['dob']; // Pas besoin de htmlspecialchars() pour une date
+                $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+                $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+                $nexusID = uniqid('NX_'); // Génération automatique d'un nexus_id
+
+                try {
+                    $user = $this->model('User', null, $first_name, $last_name, $dob, $email, $password, $nexusID);
+                    if ($user->register()) {
+                        $_SESSION['user_id'] = $user->get_id();
+                        $_SESSION['user_name'] = $user->get_first_name();
+                        header("Location: index");
+                        exit();
+                    } else {
+                        throw new Exception("Échec de l'enregistrement");
+                    }
+                } catch (Exception $e) {
+                    echo "Erreur : " . $e->getMessage();
+                }
             }
         }
-    }
-    public function test(){
+
+        public function test(){
         echo 'test';
     }
 }

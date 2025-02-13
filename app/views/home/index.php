@@ -81,14 +81,14 @@
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <button class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
+                    <a href='homeController/login' class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
                         <i class="fas fa-wallet"></i>
-                        <span></span>
-                    </button>
-                    <button class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
+                        <span>Login</span>
+                    </a>
+                    <a href='homeController/register' class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
                         <i class="fas fa-wallet"></i>
-                        <span>Connect Wallet</span>
-                    </button>
+                        <span>Register</span>
+                    </a>
                 </div>
             </div>
         </div>

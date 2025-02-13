@@ -1,4 +1,3 @@
--- Création de la base de données
 CREATE
 DATABASE nexus;
 
@@ -23,14 +22,8 @@ CREATE TABLE cryptos
 (
     id                 SERIAL PRIMARY KEY,
     name               VARCHAR(100)        NOT NULL,
-    symbol             VARCHAR(10) UNIQUE  NOT NULL,
-    slug               VARCHAR(100) UNIQUE NOT NULL,
-    max_supply         BIGINT         DEFAULT NULL,
-    market_cap         DECIMAL(18, 2) DEFAULT NULL,
-    volume_24h         DECIMAL(18, 2) DEFAULT NULL,
-    circulating_supply DECIMAL(18, 2) DEFAULT NULL,
-    total_supply       DECIMAL(18, 2) DEFAULT NULL,
-    price              DECIMAL(18, 8) DEFAULT NULL,
+    symbol             VARCHAR(100) UNIQUE  NOT NULL,
+
     last_updated       TIMESTAMP      DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -58,8 +51,8 @@ CREATE TABLE transactions
     id               SERIAL PRIMARY KEY,
     user_id          INT REFERENCES users (id) ON DELETE CASCADE,
     crypto_id        INT REFERENCES cryptos (id) ON DELETE CASCADE,
-    transaction_type VARCHAR(10) CHECK (transaction_type IN ('buy', 'sell', 'transfer')) NOT NULL,
-    amount           DECIMAL(18, 8)                                                      NOT NULL,
+
+                                                  NOT NULL,
     usdt_value       DECIMAL(18, 8)                                                      NOT NULL,
     recipient_id     INT                                                                 REFERENCES users (id) ON DELETE SET NULL,
     created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP
