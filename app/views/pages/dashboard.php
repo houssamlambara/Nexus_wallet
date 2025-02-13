@@ -1,6 +1,7 @@
 
 <?php
 
+extract($data);
 
 ob_start();
 ?>
@@ -33,7 +34,7 @@ ob_start();
                             <h3 class="text-gray-400">Total Balance</h3>
                             <i class="fas fa-wallet text-blue-500"></i>
                         </div>
-                        <div class="text-2xl font-bold">$45,231.89</div>
+                        <div class="text-2xl font-bold"><?= number_format($userBalance, 2) ?> USD</div>
                         <div class="text-green-500 text-sm">+2.5% today</div>
                     </div>
 
@@ -82,55 +83,9 @@ ob_start();
 
                     <!-- Recent Orders -->
                     <div class="bg-dark-light p-6 rounded-xl">
-                        <h3 class="font-bold mb-6">Recent Orders</h3>
-                        <div class="space-y-4">
-                            <div class="flex items-center justify-between p-3 bg-dark rounded-lg">
-                                <div class="flex items-center space-x-3">
-                                    <div class="w-8 h-8 bg-green-500/20 rounded-full flex items-center justify-center">
-                                        <i class="fas fa-arrow-up text-green-500 text-sm"></i>
-                                    </div>
-                                    <div>
-                                        <div class="font-medium">Buy BTC</div>
-                                        <div class="text-gray-400 text-sm">0.0234 BTC</div>
-                                    </div>
-                                </div>
-                                <div class="text-right">
-                                    <div class="font-medium">$1,234.56</div>
-                                    <div class="text-gray-400 text-sm">2 min ago</div>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center justify-between p-3 bg-dark rounded-lg">
-                                <div class="flex items-center space-x-3">
-                                    <div class="w-8 h-8 bg-red-500/20 rounded-full flex items-center justify-center">
-                                        <i class="fas fa-arrow-down text-red-500 text-sm"></i>
-                                    </div>
-                                    <div>
-                                        <div class="font-medium">Sell ETH</div>
-                                        <div class="text-gray-400 text-sm">1.5 ETH</div>
-                                    </div>
-                                </div>
-                                <div class="text-right">
-                                    <div class="font-medium">$2,856.12</div>
-                                    <div class="text-gray-400 text-sm">5 min ago</div>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center justify-between p-3 bg-dark rounded-lg">
-                                <div class="flex items-center space-x-3">
-                                    <div class="w-8 h-8 bg-green-500/20 rounded-full flex items-center justify-center">
-                                        <i class="fas fa-arrow-up text-green-500 text-sm"></i>
-                                    </div>
-                                    <div>
-                                        <div class="font-medium">Buy SOL</div>
-                                        <div class="text-gray-400 text-sm">15 SOL</div>
-                                    </div>
-                                </div>
-                                <div class="text-right">
-                                    <div class="font-medium">$945.00</div>
-                                    <div class="text-gray-400 text-sm">12 min ago</div>
-                                </div>
-                            </div>
+                        <h3 class="font-bold mb-6">Top 3 Cryptocurrencies by Market Cap</h3>
+                        <div class="space-y-4" id="crypto-list">
+                            <!-- Crypto data will be dynamically inserted here -->
                         </div>
                     </div>
                 </div>
@@ -206,6 +161,54 @@ ob_start();
         </main>
 
     <script>
+
+
+            // Fetch data from the API
+            const url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=3&page=1";
+
+            fetch(url)
+            .then(response => response.json())
+            .then(data => {
+            const cryptoList = document.getElementById('crypto-list');
+
+            data.forEach(crypto => {
+            const cryptoItem = document.createElement('div');
+            cryptoItem.className = 'flex items-center justify-between p-3 bg-dark rounded-lg';
+
+            const cryptoIconAndName = document.createElement('div');
+            cryptoIconAndName.className = 'flex items-center space-x-3';
+
+            const cryptoIcon = document.createElement('div');
+            cryptoIcon.className = 'w-8 h-8 bg-green-500/20 rounded-full flex items-center justify-center';
+            cryptoIcon.innerHTML = `<img src="${crypto.image}" alt="${crypto.name}" class="w-4 h-4">`;
+
+            const cryptoNameAndSymbol = document.createElement('div');
+            cryptoNameAndSymbol.innerHTML = `
+                    <div class="font-medium">${crypto.name}</div>
+                    <div class="text-gray-400 text-sm">${crypto.symbol.toUpperCase()}</div>
+                `;
+
+            cryptoIconAndName.appendChild(cryptoIcon);
+            cryptoIconAndName.appendChild(cryptoNameAndSymbol);
+
+            const cryptoPriceAndChange = document.createElement('div');
+            cryptoPriceAndChange.className = 'text-right';
+            cryptoPriceAndChange.innerHTML = `
+                    <div class="font-medium">$${crypto.current_price.toLocaleString()}</div>
+                    <div class="text-gray-400 text-sm">${crypto.price_change_percentage_24h.toFixed(2)}%</div>
+                `;
+
+            cryptoItem.appendChild(cryptoIconAndName);
+            cryptoItem.appendChild(cryptoPriceAndChange);
+
+            cryptoList.appendChild(cryptoItem);
+        });
+        })
+            .catch(error => console.error('Error fetching data:', error));
+
+
+
+
         // Initialize price chart
         const ctx = document.getElementById('priceChart').getContext('2d');
         const priceChart = new Chart(ctx, {
