@@ -16,7 +16,7 @@ class DatabaseConnection {
             die("Database connection failed: " . $e->getMessage());
         }
     }
-    
+
 
     public static function getInstance() {
         if (self::$instance == null) {

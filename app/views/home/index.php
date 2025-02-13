@@ -1,5 +1,26 @@
+<?php
+// echo "<pre>";
+// print_r($data);
+// foreach ($data['data'] as $coin) {
+//     echo ($coin['id']);
+
+// }
+print_r($_SESSION['user_id']);
+print_r($_SESSION['usdt_balance']);
+print_r($_SESSION['user_name']);
+
+
+
+
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,8 +41,12 @@
                     },
                     keyframes: {
                         float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
+                            '0%, 100%': {
+                                transform: 'translateY(0)'
+                            },
+                            '50%': {
+                                transform: 'translateY(-10px)'
+                            },
                         }
                     }
                 }
@@ -34,18 +59,22 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
         .crypto-card {
             transition: transform 0.3s ease;
         }
+
         .crypto-card:hover {
             transform: translateY(-5px);
         }
+
         .glass-effect {
             backdrop-filter: blur(10px);
             background: rgba(255, 255, 255, 0.1);
         }
     </style>
 </head>
+
 <body class="bg-dark text-white">
     <!-- Floating Elements -->
     <div class="fixed w-full h-full pointer-events-none">
@@ -63,9 +92,9 @@
                     </div>
                     <span class="text-2xl font-bold">CritoX</span>
                 </div>
-                
+
                 <div class="hidden md:flex space-x-8">
-                    <a href="#" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
+                    <a href="<?php echo  URLROOT . 'WatchlistController/chihaja' ?>" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
                         <i class="fas fa-shopping-cart"></i>
                         <span>Buy</span>
                     </a>
@@ -73,19 +102,19 @@
                         <i class="fas fa-dollar-sign"></i>
                         <span>Sell</span>
                     </a>
-                    
-                    <a href="#" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
+
+                    <a href="<?php echo URLROOT . 'marcket/marcket1'; ?>" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
                         <i class="fas fa-chart-line"></i>
                         <span>Markets</span>
                     </a>
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <a href='homeController/login' class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
+                    <a href='http://localhost/Nexus_wallet/homeController/login' class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
                         <i class="fas fa-wallet"></i>
                         <span>Login</span>
                     </a>
-                    <a href='homeController/register' class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
+                    <a href='http://localhost/Nexus_wallet/homeController/register' class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
                         <i class="fas fa-wallet"></i>
                         <span>Register</span>
                     </a>
@@ -117,7 +146,7 @@
                             <span>Watch Demo</span>
                         </button>
                     </div>
-                    
+
                     <!-- Trust Badges -->
                     <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
                         <div class="flex items-center space-x-2">
@@ -138,10 +167,10 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="md:w-1/2 relative">
                     <div class="relative z-10 animate-float">
-                        <img src="../../../public/img/brcImg.webp" alt="Trading Platform" class="rounded-2xl shadow-2xl">
+                        <img src=img/brcImg.webp" alt="Trading Platform" class="rounded-2xl shadow-2xl">
                         <!-- Floating Elements -->
                         <div class="absolute -top-6 -left-6 w-20 h-20 bg-blue-500/20 rounded-full animate-pulse"></div>
                         <div class="absolute -bottom-6 -right-6 w-20 h-20 bg-purple-500/20 rounded-full animate-pulse"></div>
@@ -217,83 +246,84 @@
     </section>
 
     <!-- Popular Coins Section -->
-    <section class="py-20 bg-dark-light px-12">
-        <div class="container mx-auto px-6">
-            <div class="flex justify-between items-center mb-12">
-                <h2 class="text-3xl font-bold">Popular Coins</h2>
-                <button class="text-blue-500 hover:text-blue-400 transition-colors">
-                    View All Coins <i class="fas fa-arrow-right ml-2"></i>
-                </button>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-8">
+        <?php if (isset($data['data'])): ?>
+            <?php foreach ($data['data'] as $coin): ?>
+                <div class="bg-dark-light rounded-xl p-6 hover:shadow-lg transition-all duration-300 border border-gray-800 relative">
+                    <!-- Add Star Button with Hidden Form -->
+                    <form action="watchlist/add" method="POST" class="absolute top-4 right-4">
+                        <input type="hidden" name="coin_id" value="<?php echo htmlspecialchars($coin['id']); ?>">
+                        <input type="hidden" name="coin_name" value="<?php echo htmlspecialchars($coin['name']); ?>">
+                        <input type="hidden" name="coin_symbol" value="<?php echo htmlspecialchars($coin['symbol'] ?? ''); ?>">
+                        <input type="hidden" name="coin_price" value="<?php echo htmlspecialchars($coin['current_price'] ?? ''); ?>">
+                        <?php if (isset($coin['image'])): ?>
+                            <input type="hidden" name="coin_image" value="<?php echo htmlspecialchars($coin['image']); ?>">
+                        <?php endif; ?>
+                        <button type="submit" class="text-gray-400 hover:text-yellow-500 transition-colors duration-300 focus:outline-none group">
+                            <i class="fas fa-star text-xl group-hover:scale-110 transform transition-transform"></i>
+                            <span class="sr-only">Add <?php echo htmlspecialchars($coin['name']); ?> to watchlist</span>
+                        </button>
+                    </form>
+
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <?php if (isset($coin['image']) && $coin['image']): ?>
+                                <img src="<?php echo htmlspecialchars($coin['image']); ?>"
+                                    alt="<?php echo htmlspecialchars($coin['name']); ?>"
+                                    class="w-10 h-10 rounded-full">
+                            <?php else: ?>
+                                <div class="w-10 h-10 bg-blue-500/20 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-coins text-blue-500"></i>
+                                </div>
+                            <?php endif; ?>
+                            <div>
+                                <h3 class="font-bold text-white">
+                                    <?php echo htmlspecialchars($coin['name']); ?>
+                                </h3>
+                                <span class="text-sm text-gray-400 uppercase">
+                                    <?php echo htmlspecialchars($coin['symbol'] ?? ''); ?>
+                                </span>
+                            </div>
+                        </div>
+                        <?php if (isset($coin['price_change_percentage_24h'])): ?>
+                            <span class="<?php echo $coin['price_change_percentage_24h'] >= 0 ? 'text-green-500' : 'text-red-500'; ?> font-medium">
+                                <?php echo number_format($coin['price_change_percentage_24h'], 2); ?>%
+                            </span>
+                        <?php endif; ?>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="text-lg font-bold text-white">
+                            <?php
+                            $price = $coin['current_price'] ?? null;
+                            echo ($price !== null)
+                                ? '$' . number_format($price, 2)
+                                : 'Price not available';
+                            ?>
+                        </div>
+                        <?php if (isset($coin['market_cap'])): ?>
+                            <div class="text-sm text-gray-400">
+                                MCap: $<?php echo number_format($coin['market_cap'] / 1000000, 1); ?>M
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                    <?php if (isset($coin['total_volume'])): ?>
+                        <div class="mt-4 pt-4 border-t border-gray-800">
+                            <div class="text-sm text-gray-400">
+                                24h Volume: $<?php echo number_format($coin['total_volume']); ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div class="col-span-full bg-dark-light rounded-xl p-6 text-center">
+                <div class="text-gray-400">
+                    <i class="fas fa-exclamation-circle text-2xl mb-2"></i>
+                    <p>Error fetching cryptocurrency data.</p>
+                </div>
             </div>
-
-            <div class="grid md:grid-cols-4 gap-6">
-                <!-- Coin Cards -->
-                <div class="crypto-card bg-dark p-6 rounded-xl">
-                    <div class="flex items-center space-x-4 mb-4">
-                        <div class="w-10 h-10 bg-yellow-500/20 rounded-full flex items-center justify-center">
-                            <i class="fab fa-bitcoin text-yellow-500"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold">Bitcoin</h3>
-                            <span class="text-gray-400 text-sm">BTC</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-lg font-bold">$45,234</span>
-                        <span class="text-green-500">+2.5%</span>
-                    </div>
-                </div>
-
-                <div class="crypto-card bg-dark p-6 rounded-xl">
-                    <div class="flex items-center space-x-4 mb-4">
-                        <div class="w-10 h-10 bg-blue-500/20 rounded-full flex items-center justify-center">
-                            <i class="fab fa-ethereum text-blue-500"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold">Ethereum</h3>
-                            <span class="text-gray-400 text-sm">ETH</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-lg font-bold">$3,456</span>
-                        <span class="text-green-500">+4.2%</span>
-                    </div>
-                </div>
-
-                <div class="crypto-card bg-dark p-6 rounded-xl">
-                    <div class="flex items-center space-x-4 mb-4">
-                        <div class="w-10 h-10 bg-green-500/20 rounded-full flex items-center justify-center">
-                            <i class="fas fa-dollar-sign text-green-500"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold">USDT</h3>
-                            <span class="text-gray-400 text-sm">USDT</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-lg font-bold">$1.00</span>
-                        <span class="text-gray-400">0.0%</span>
-                    </div>
-                </div>
-
-                <div class="crypto-card bg-dark p-6 rounded-xl">
-                    <div class="flex items-center space-x-4 mb-4">
-                    <div class="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center">
-                            <i class="fas fa-chart-pie text-purple-500"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold">Solana</h3>
-                            <span class="text-gray-400 text-sm">SOL</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-lg font-bold">$98.45</span>
-                        <span class="text-green-500">+6.8%</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        <?php endif; ?>
+    </div>
 
     <!-- Mobile App Section -->
     <section class="py-20 px-12">
@@ -518,7 +548,7 @@
         // Mobile menu toggle
         const mobileMenuBtn = document.querySelector('#mobile-menu-btn');
         const mobileMenu = document.querySelector('#mobile-menu');
-        
+
         if (mobileMenuBtn && mobileMenu) {
             mobileMenuBtn.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
@@ -526,4 +556,5 @@
         }
     </script>
 </body>
+
 </html>

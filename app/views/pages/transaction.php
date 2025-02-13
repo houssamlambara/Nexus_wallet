@@ -1,29 +1,11 @@
 
 <?php
-
-
+session_start();
+$titre = 'Transaction History';
 ob_start();
 ?>
 
-        <!-- Main Content -->
-        <main class="ml-64 flex-1 min-h-screen">
-            <!-- Top Navigation -->
-            <header class="bg-dark-light border-b border-gray-800 sticky top-0 z-50">
-                <div class="flex items-center justify-between p-4">
-                    <div class="flex items-center space-x-4">
-                        <h1 class="text-xl font-bold">Transaction History</h1>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <button class="p-2 hover:bg-gray-800 rounded-lg text-gray-400 hover:text-white transition-colors">
-                            <i class="fas fa-bell"></i>
-                        </button>
-                        <div class="flex items-center space-x-2">
-                            <img src="/api/placeholder/32/32" alt="Profile" class="w-8 h-8 rounded-full">
-                            <span class="text-sm font-medium">John Doe</span>
-                        </div>
-                    </div>
-                </div>
-            </header>
+
 
             <!-- Transaction History Table -->
             <div class="p-6">
