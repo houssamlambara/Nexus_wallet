@@ -66,37 +66,28 @@ class User
         }
     }
 
+        public function register() {
+            try {
+                $pdo = DatabaseConnection::getInstance()->getConnection();
+                if ($pdo === null) {
+                    echo "Erreur : la connexion à la base de données ne peut pas être établie !";
+                    return false;
+                }
+                if (empty($this->password)) {
+                    echo "Erreur : Le mot de passe est manquant.";
+                    return false;
+                }
+                // Validate email format
+                if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+                    throw new Exception("Invalid email format");
+                }
+                // Validate password length
+                if (strlen($this->password) < 6) {
+                    throw new Exception("Password must be at least 6 characters long");
+                }
 
-    // Method for user registration
-    public function register()
-    {
-        try {
-            $pdo = DatabaseConnection::getInstance()->getConnection();
-            if ($pdo === null) {
-                echo "Erreur : la connexion à la base de données ne peut pas être établie !";
-                return false;
-            }
-
-            if (empty($this->password)) {
-                echo "Erreur : Le mot de passe est manquant.";
-                return false;
-            }
-
-            // Validate email format
-            if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
-                throw new Exception("Invalid email format");
-            }
-
-            // Validate password length
-            if (strlen($this->password) < 6) {
-                throw new Exception("Password must be at least 6 characters long");
-            }
-
-            echo 'added successfully';
-
-            // SQL query to insert a new user into the database
-            $sql = "INSERT INTO users (first_name, last_name, email, password_hash, birth_date, nexus_id, usdt_balance, created_at) 
-                    VALUES (:first_name, :last_name, :email, :password, :birth_date, :nexus_id, :usdt_balance, CURRENT_TIMESTAMP)";
+                $sql = "INSERT INTO users (first_name, last_name, email, password_hash, birth_date, nexus_id, created_at) 
+        VALUES (:first_name, :last_name, :email, :password, :birth_date, :nexus_id, CURRENT_TIMESTAMP)";
 
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':first_name', $this->first_name);
@@ -120,18 +111,16 @@ class User
         }
     }
 
-    // Static method to log out
-    public static function logout()
-    {
-        session_start();
-
-        if (isset($_SESSION['user_id'])) {
-            session_unset();
-            session_destroy();
-            header("Location: " . APPROOT . "/home/index");
-            exit();
+        public static function logout() {
+            session_start();
+        
+            if (isset($_SESSION['user_id'])) {
+                session_unset();
+                session_destroy();
+                header("Location: " . APPROOT . "/home/index");  
+                exit();
+            }
         }
-    }
 
 
         public static function findByEmail($email) {
@@ -140,7 +129,7 @@ class User
             $stmt->execute([$email]);
             return $stmt->fetch();
         }
-
+        
         public static function markAsVerified($userId) {
             $DB = DatabaseConnection::getInstance()->getConnection();
             $stmt = $DB->prepare("UPDATE users SET is_verified = 1 WHERE id = ?");

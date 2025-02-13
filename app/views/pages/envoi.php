@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 $titre = 'Envoyer des Cryptos';
 ob_start();
 ?>
@@ -54,19 +54,10 @@ ob_start();
             
             <?php
 
-                    // if(isset($_SESSION['alert'])){
-                    //     $getArr = $_SESSION['alert'];
-                    //     if($getArr[0] === 'success'){
-                    //         echo '<span class="text-red-600">'.$getArr[1].'</span>';
-                    //         unset($_SESSION['alert']);
-                    //     }elseif($getArr[1] === 'success'){
-                    //         echo '<span class="text-green-600">'.$getArr[1].'</span>';
-                    //         unset($_SESSION['alert']);
-                    //     }else{
-                    //         echo '<span class="text-green-600">hi</span>';
-
-                    //     }
-                    // }
+                    if(isset($_SESSION['alert'])){
+                        echo $_SESSION['alert'];
+                        unset($_SESSION['alert']);
+                    }
 
 
                     ?>
