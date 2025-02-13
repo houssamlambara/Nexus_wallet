@@ -1,6 +1,7 @@
 <?php
 
     require_once '../app/models/wallet.php';
+    session_start();
 
     class envoiController extends Controller{
 
