@@ -1,4 +1,6 @@
-<?php extract($data); ?>
+<?php
+session_start();
+ extract($data); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

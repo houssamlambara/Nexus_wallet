@@ -1,7 +1,7 @@
 
     <?php
         $titre = 'Acheter des Cryptos';
-
+        session_start();
         ob_start();
     ?>
 

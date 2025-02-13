@@ -1,7 +1,7 @@
 
 <?php
+session_start();
 $titre = 'Transaction History';
-
 ob_start();
 ?>
 
