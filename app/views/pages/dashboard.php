@@ -1,5 +1,8 @@
+
 <?php
 extract($data);
+session_start();
+$titre = 'Dashboard';
 ob_start();
 ?>
 
@@ -329,6 +332,9 @@ ob_start();
 
 <?php
 $content = ob_get_clean();
+
+
 include_once 'layout.php';
+
+
 ?>
-``` ▋

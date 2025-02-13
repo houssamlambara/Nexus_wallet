@@ -65,7 +65,6 @@
                 if (strlen($this->password) < 6) {
                     throw new Exception("Password must be at least 6 characters long");
                 }
-                echo 'added successfully';
 
                 $sql = "INSERT INTO users (first_name, last_name, email, password_hash, birth_date, nexus_id, created_at) 
         VALUES (:first_name, :last_name, :email, :password, :birth_date, :nexus_id, CURRENT_TIMESTAMP)";
@@ -80,6 +79,7 @@
                 $stmt->bindParam(':nexus_id', $nexus_id);
                 if ($stmt->execute()) {
                     $this->id_user = $pdo->lastInsertId();
+                    echo 'added successfully';
                     return true;
                 }
             } catch (PDOException $e) {
@@ -124,6 +124,19 @@
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
+
+        public static function findByEmail($email) {
+            $DB = DatabaseConnection::getInstance()->getConnection();
+            $stmt = $DB->prepare("SELECT * FROM users WHERE email = ?");
+            $stmt->execute([$email]);
+            return $stmt->fetch();
+        }
+        
+        public static function markAsVerified($userId) {
+            $DB = DatabaseConnection::getInstance()->getConnection();
+            $stmt = $DB->prepare("UPDATE users SET is_verified = 1 WHERE id = ?");
+            return $stmt->execute([$userId]);
+        }
 
     }
 ?>

@@ -1,3 +1,12 @@
+<?php
+
+
+    if(isset($_SESSION['user_id']) && isset($_SESSION['user_name']) && !empty($_SESSION['user_id']) && !empty($_SESSION['user_name'])){
+        $name = $_SESSION['user_name'];
+    }else{
+        header('Location: home');
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,13 +100,30 @@
 
 
             <div class="p-4 border-t border-gray-800">
-                <button class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 text-gray-400 hover:text-white transition-colors w-full">
+                <a href="http://localhost/Nexus_wallet/HomeController/logout" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 text-gray-400 hover:text-white transition-colors w-full">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
-                </button>
+                </a>
             </div>
         </aside>
-
+        <!-- Main Content -->
+        <main class="ml-64 flex-1 min-h-screen">
+            <!-- Top Navigation -->
+            <header class="bg-dark-light border-b border-gray-800 sticky top-0 z-50">
+                <div class="flex items-center justify-between p-4">
+                    <div class="flex items-center space-x-4">
+                        <h1 class="text-xl font-bold"><?php echo $titre; ?></h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm font-medium">Welcome M. <?php if(isset($_SESSION['user_name'])){ echo $_SESSION['user_name'];} ?>!</span>
+                        </div>
+                        <button class="p-2 hover:bg-gray-800 rounded-lg text-gray-400 hover:text-white transition-colors">
+                            <i class="fas fa-bell"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
 
 
 
