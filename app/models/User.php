@@ -104,17 +104,19 @@
             }
         }
 
-        public static function findByVerificationToken($token) {
+
+        public static function findByEmail($email) {
             $DB = DatabaseConnection::getInstance()->getConnection();
-            $stmt = $db->prepare("SELECT * FROM users WHERE verification_token = ?");
-            $stmt->execute([$token]);
+            $stmt = $DB->prepare("SELECT * FROM users WHERE email = ?");
+            $stmt->execute([$email]);
             return $stmt->fetch();
         }
-    
+        
         public static function markAsVerified($userId) {
             $DB = DatabaseConnection::getInstance()->getConnection();
-            $stmt = $db->prepare("UPDATE users SET is_verified = 1 WHERE id = ?");
+            $stmt = $DB->prepare("UPDATE users SET is_verified = 1 WHERE id = ?");
             return $stmt->execute([$userId]);
         }
+
     }
 ?>

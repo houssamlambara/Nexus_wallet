@@ -27,25 +27,28 @@
 
 
         public function verifyEmail() {
-            if (!empty($_GET['token'])) {
-                $token = $_GET['token'];
-                $user = User::findByVerificationToken($token);
+            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
+                if (!empty($_POST['email']) && !empty($_POST['otp'])) {
+                    $email = trim($_POST['email']);
+                    $otp = trim($_POST['otp']);
         
-                if ($user) {
-                    User::markAsVerified($user['id']);
-                    echo "<script>alert('Email vérifié avec succès ! Vous pouvez maintenant vous connecter.');</script>";
-                    echo '<meta http-equiv="refresh" content="0;url=login">';
+                    $user = User::findByEmail($email);
+        
+                    if ($user && $user['otp_code'] == $otp) {
+                        User::markAsVerified($user['id']);
+                        echo "<script>alert('Email vérifié avec succès ! Vous pouvez maintenant vous connecter.');</script>";
+                        echo '<meta http-equiv="refresh" content="0;url=login">';
+                    } else {
+                        echo "<script>alert('Code OTP invalide ou expiré.');</script>";
+                        echo '<meta http-equiv="refresh" content="0;url=register">';
+                    }
                 } else {
-                    echo "<script>alert('Lien de vérification invalide ou expiré.');</script>";
+                    echo "<script>alert('Veuillez remplir tous les champs !');</script>";
                     echo '<meta http-equiv="refresh" content="0;url=register">';
                 }
-            } else {
-                echo "<script>alert('Token manquant.');</script>";
-                echo '<meta http-equiv="refresh" content="0;url=register">';
             }
-            exit();
         }
-        private function sendVerificationEmail($email, $token) {
+        private function sendVerificationEmail($email, $otpCode) {
             $mail = new PHPMailer(true);
             
             try {
@@ -75,8 +78,7 @@
                 // Contenu
                 $mail->isHTML(true);
                 $mail->Subject = 'Verification de votre email';
-                $verificationLink = "http://localhost/NEXUS_WALLET/HomeController/verifyEmail?token=$token";
-                $mail->Body    = "Cliquez sur ce lien pour vérifier votre email : <a href='$verificationLink'>$verificationLink</a>";
+                $mail->Body    = "Votre code de vérification OTP est : <strong>$otpCode</strong>";
         
                 $mail->send();
                 return true;
@@ -85,7 +87,6 @@
                 return false;
             }
         }
-    
 
     
         public function loginAction() {
@@ -105,7 +106,7 @@
                         } else {
                             $this->sendVerificationEmail($user['email'], $user['verification_token']);
                             echo "<script>alert('Votre compte n'est pas vérifié. Un nouvel email de vérification a été envoyé.');</script>";
-                            echo '<meta http-equiv="refresh" content="0;url=index">';
+                            $this->view("login/verify");
                         }
                     } else {
                         echo "<script>alert('Email ou mot de passe incorrect !');</script>";
@@ -139,15 +140,15 @@
             $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
             $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
             $nexusID = uniqid('NX_');
-            $verificationToken = bin2hex(random_bytes(32));
+            $otpCode = rand(100000, 999999); // Générer un code OTP à 6 chiffres
     
             try {
-                $user = $this->model('User', null, $first_name, $last_name, $dob, $email, $password, $nexusID, $verificationToken);
+                $user = $this->model('User', null, $first_name, $last_name, $dob, $email, $password, $nexusID, $otpCode);
                 
                 if ($user->register()) {
-                    if ($this->sendVerificationEmail($email, $verificationToken)) {
-                        echo "<script>alert('Un email de vérification a été envoyé !');</script>";
-                        echo '<meta http-equiv="refresh" content="0;url=login">';
+                    if ($this->sendVerificationEmail($email, $otpCode)) {
+                        echo "<script>alert('Un email de vérification avec un code OTP a été envoyé !');</script>";
+                        $this->view("login/verify");
                     } else {
                         throw new Exception("Erreur lors de l'envoi de l'email de vérification");
                     }
@@ -160,7 +161,6 @@
             }
         }
     }
-
    
     public function test(){
         echo 'test';
