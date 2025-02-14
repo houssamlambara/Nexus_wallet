@@ -105,15 +105,17 @@
                             exit();
                         } else {
                             $this->sendVerificationEmail($user['email'], $user['otp_code']);
-                            echo "<script>alert('Votre compte n'est pas vérifié. Un nouvel email de vérification a été envoyé.');</script>";
+//                            echo "<script>alert('Votre compte n'est pas vérifié. Un nouvel email de vérification a été envoyé.');</script>";
+                            $_SESSION['error'] = "Votre compte n'est pas vérifié. Un nouvel email de vérification a été envoyé";
                             $this->view("login/verify");
                         }
                     } else {
-                        echo "<script>alert('Email ou mot de passe incorrect !');</script>";
-                        echo '<meta http-equiv="refresh" content="0;url=index">';
+                        $_SESSION['error'] ='Email ou mot de passe incorrect !';
+                        $this->view("login/login");
+//                        echo '<meta http-equiv="refresh" content="0;url=index">';
                     }
                 } else {
-                    echo "<script>alert('Veuillez remplir tous les champs !');</script>";
+                    $_session['error'] ='Veuillez remplir tous les champs !';
                     echo '<meta http-equiv="refresh" content="0;url=index">';
                 }
             }
@@ -147,10 +149,11 @@
                 
                 if ($user->register()) {
                     if ($this->sendVerificationEmail($email, $otpCode)) {
-                        echo "<script>alert('Un email de vérification avec un code OTP a été envoyé !');</script>";
+                        $_SESSION['success']='Un email de vérification avec un code OTP a été envoyé !';
                         $this->view("login/verify");
                     } else {
-                        throw new Exception("Erreur lors de l'envoi de l'email de vérification");
+                        $_SESSION['error']="Erreur lors de l'envoi de l'email de vérification";
+                        $this->view("login/signup");
                     }
                     exit();
                 } else {

@@ -36,6 +36,7 @@
   </style>
 </head>
 <body class="text-white flex items-center justify-center min-h-screen">
+
   <div class="glass p-8 rounded-2xl shadow-2xl w-full max-w-2xl mx-4">
     <div class="text-center mb-8">
       <h1 class="text-3xl font-bold mb-2">Create Your Account</h1>
@@ -86,3 +87,25 @@
   </script>
 </body>
 </html>
+
+<?php
+
+if(isset($_SESSION['error'])){
+    $message = $_SESSION['error'];
+    echo "
+        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'error',
+                text: '$message',
+                confirmButtonText: 'OK',
+                timer: 5000
+            });
+        </script>
+    ";
+    unset($_SESSION['error']);
+}
+?>
+
+
