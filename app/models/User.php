@@ -113,8 +113,8 @@ class User
                 echo "Erreur: " . $e->getMessage();
                 return false;
             }
-        } 
-    
+        }
+
 
         public static function logout() {
             session_start();

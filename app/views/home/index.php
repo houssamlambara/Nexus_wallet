@@ -104,7 +104,7 @@
                         <span>Markets</span>
                     </a>
                 </div>
-
+                <?php if(!isset($_SESSION['user_id'])){ ?>
                 <div class="flex items-center space-x-4">
                     <a href='http://localhost/Nexus_wallet/homeController/login' class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
                         <i class="fas fa-wallet"></i>
@@ -115,6 +115,18 @@
                         <span>Register</span>
                     </a>
                 </div>
+                <?php } else {?>
+                    <div class="flex items-center space-x-4">
+                    <a  class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 ">
+                        
+                        <span><?php echo $_SESSION['user_name']; ?></span>
+                    </a>
+                    <a href='http://localhost/Nexus_wallet/homeController/logout' class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
+                        <i class="fas fa-wallet"></i>
+                        <span>Logout</span>
+                    </a>
+                    </div>
+                    <?php } ?>
             </div>
         </div>
     </nav>

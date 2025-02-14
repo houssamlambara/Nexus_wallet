@@ -91,6 +91,6 @@ class WatchlistController extends Controller
             'watchlist' => $watchlist,
         ];
 
-        $this->view('home/watchlist', $data);
+        $this->view('pages/watchlist', $data);
     }
 }
