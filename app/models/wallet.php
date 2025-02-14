@@ -35,6 +35,7 @@ class wallet extends Controller {
         } else {
             return 'Insufficient balance!';
         }
+    }
 
         public function sellCrypto($conn,$userId,$amount,$crypto,$cryptoPrice){
 
@@ -63,6 +64,6 @@ class wallet extends Controller {
             }else{
                 return 'Balance not enough!';
             }
-        }
+        
     }
-    
+    }
