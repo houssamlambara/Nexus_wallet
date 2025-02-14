@@ -86,10 +86,11 @@ class User
                     throw new Exception("Password must be at least 6 characters long");
                 }
 
-                $sql = "INSERT INTO users (first_name, last_name, email, password_hash, birth_date, nexus_id, created_at) 
-        VALUES (:first_name, :last_name, :email, :password, :birth_date, :nexus_id, CURRENT_TIMESTAMP)";
+           $sql = "INSERT INTO users (first_name, last_name, email, password_hash, birth_date, nexus_id, usdt_balance, created_at) 
+        VALUES (:first_name, :last_name, :email, :password, :birth_date, :nexus_id, :usdt_balance, CURRENT_TIMESTAMP)";
 
-            $stmt = $pdo->prepare($sql);
+
+                $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':first_name', $this->first_name);
             $stmt->bindParam(':last_name', $this->last_name);
             $stmt->bindParam(':email', $this->email);

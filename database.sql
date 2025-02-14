@@ -21,8 +21,8 @@ CREATE TABLE users
 CREATE TABLE cryptos
 (
     id                 SERIAL PRIMARY KEY,
-    name               VARCHAR(100)        NOT NULL,
-    symbol             VARCHAR(100) UNIQUE  NOT NULL,
+    name               VARCHAR(100)       ,
+    symbol             VARCHAR(100) UNIQUE ,
 
     last_updated       TIMESTAMP      DEFAULT CURRENT_TIMESTAMP
 );
@@ -45,7 +45,7 @@ CREATE TABLE wallets
     PRIMARY KEY (user_id, crypto_id)
 );
 
--- Création de la table transactions
+-- Création de la tble transactions
 CREATE TABLE transactions
 (
     id               SERIAL PRIMARY KEY,
