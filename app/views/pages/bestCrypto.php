@@ -2,6 +2,7 @@
 <?php
 
 $titre = 'Top 10 Cryptos';
+session_start();
 ob_start();
 ?>
 

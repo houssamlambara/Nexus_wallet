@@ -1,6 +1,6 @@
 
 <?php
-
+session_start();
 $titre = 'Vendre des Cryptos';
 ob_start();
 ?>

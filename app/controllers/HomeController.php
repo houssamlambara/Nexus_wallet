@@ -1,4 +1,4 @@
-<?php 
+<?php
         use PHPMailer\PHPMailer\PHPMailer;
         use PHPMailer\PHPMailer\SMTP;
         use PHPMailer\PHPMailer\Exception;
@@ -53,7 +53,7 @@
             
             try {
                 // Activation du débogage SMTP
-                $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+                // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
         
                 // Configuration SMTP
                 $mail->isSMTP();                
@@ -139,11 +139,11 @@
             $dob = $_POST['dob'];
             $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
             $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-            $nexusID = uniqid('NX_');
+            $nexusID = 'NX_' . bin2hex(random_bytes(16));
             $otpCode = rand(100000, 999999); // Générer un code OTP à 6 chiffres
     
             try {
-                $user = $this->model('User', null, $first_name, $last_name, $dob, $email, $password, $nexusID, $otpCode);
+                $user = $this->model('User', null, $first_name, $last_name, $dob, $email, $password, $nexusID, 0, $otpCode);
                 
                 if ($user->register()) {
                     if ($this->sendVerificationEmail($email, $otpCode)) {
@@ -165,5 +165,31 @@
     public function test(){
         echo 'test';
     }
-}
+        public function updateBalance($user_id, $amount) {
+            // Fetch current balance
+            $currentBalance = $this->userModel->getUserBalance($user_id);
+
+            if ($currentBalance === false) {
+                return ["success" => false, "message" => "User not found."];
+            }
+
+            // Calculate new balance
+            $newBalance = $currentBalance + $amount;
+
+            // Prevent negative balance
+            if ($newBalance < 0) {
+                return ["success" => false, "message" => "Insufficient balance."];
+            }
+
+            // Update the balance in the database
+            $updated = $this->userModel->updateUserBalance($user_id, $newBalance);
+
+            if ($updated) {
+                return ["success" => true, "message" => "Balance updated successfully.", "newBalance" => $newBalance];
+            } else {
+                return ["success" => false, "message" => "Failed to update balance."];
+            }
+        }
+
+    }
 ?>

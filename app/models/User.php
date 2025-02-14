@@ -1,51 +1,72 @@
-<?php 
-    class User{
-        private $id_user;
-        private $first_name ;
-        private $last_name ;
-        private $date_of_birth;
-        private $email;
-        private $password;
-        private $nexus_id;
-        public function __construct($id_user = null, $first_name = null, $last_name = null, $date_of_birth = null, $email = null, $password = null, $nexus_id = null, $otp_code = null){
-            $this->id_user = $id_user;
-            $this->first_name = $first_name;
-            $this->last_name = $last_name;
-            $this->date_of_birth = $date_of_birth;
-            $this->email = $email;
-            $this->password = $password;
-            $this->nexus_id = $nexus_id;
-            $this->otp_code = $otp_code;
+<?php
+class User
+{
+    private $id_user;
+    private $first_name;
+    private $last_name;
+    private $date_of_birth;
+    private $email;
+    private $password;
+    private $nexus_id;
+    private $usdt_balance;
+    private $otp_code;
+
+    // Updated constructor to accept usdt_balance
+    public function __construct($id_user = null, $first_name = null, $last_name = null, $date_of_birth = null, $email = null, $password = null, $nexus_id = null, $usdt_balance = 0, $otp_code = null)
+    {
+        $this->id_user = $id_user;
+        $this->first_name = $first_name;
+        $this->last_name = $last_name;
+        $this->date_of_birth = $date_of_birth;
+        $this->email = $email;
+        $this->password = $password;
+        $this->nexus_id = $nexus_id;
+        $this->usdt_balance = $usdt_balance; // Assign usdt_balance
+        $this->otp_code = $otp_code;
+    }
+
+    // Getter for first name
+    public function get_first_name()
+    {
+        return $this->first_name;
+    }
+
+    // Getter for user ID
+    public function get_id()
+    {
+        return $this->id_user;
+    }
+
+    // Getter for usdt_balance
+    public function get_usdt_balance()
+    {
+        return $this->usdt_balance;
+        // Return the user's USDT balance
+    }
+
+    // Static method for logging in
+    public static function login($email)
+    {
+        $pdo = DatabaseConnection::getInstance()->getConnection();
+        if (!$pdo) {
+            echo "Erreur de connexion à la base de données.";
+            return null;
         }
 
-        public function get_first_name(){
-            return $this->first_name;
+        // Query to fetch user data from the database
+        $query = "SELECT * FROM users u WHERE u.email = :email";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->execute();
+
+        // Check if user exists and fetch data
+        if ($stmt->rowCount() === 1) {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } else {
+            echo "<script>alert('Adresse e-mail introuvable. Veuillez vérifier vos informations.');</script>";
+            header("Refresh: 0; URL=index");
         }
-        public function get_id(){
-            return $this->id_user;
-        }
-        public static function login($email) {
-            $pdo = DatabaseConnection::getInstance()->getConnection();
-            if (!$pdo) {
-                echo "Erreur de connexion à la base de données.";
-                return null;
-            }
-            
-            $query = "SELECT * FROM users u 
-                      WHERE u.email = :email";
-        
-            $stmt = $pdo->prepare($query);
-            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
-            $stmt->execute();
-        
-            if ($stmt->rowCount() === 1) {
-                return $stmt->fetch(PDO::FETCH_ASSOC);
-        
-            } else {
-                echo "<script>alert('Adresse e-mail introuvable. Veuillez vérifier vos informations.');</script>";
-                header("Refresh: 0; URL=index");
-            }
-        }  
+    }
 
         public function register() {
             try {
@@ -67,8 +88,8 @@
                     throw new Exception("Password must be at least 6 characters long");
                 }
 
-                $sql = "INSERT INTO users (first_name, last_name, email, password_hash, birth_date, nexus_id, otp_code, created_at) 
-        VALUES (:first_name, :last_name, :email, :password, :birth_date, :nexus_id, :otp_code,CURRENT_TIMESTAMP)";
+                $sql = "INSERT INTO users (first_name, last_name, email, password_hash, birth_date, nexus_id, otp_code, usdt_balance, created_at) 
+        VALUES (:first_name, :last_name, :email, :password, :birth_date, :nexus_id, :otp_code,:usdt_balance,CURRENT_TIMESTAMP)";
 
                 $stmt = $pdo->prepare($sql);
                 $stmt->bindParam(':first_name', $this->first_name);
@@ -77,6 +98,7 @@
                 $stmt->bindParam(':password', $this->password);
                 $stmt->bindParam(':birth_date', $this->date_of_birth);
                 $stmt->bindParam(':otp_code', $this->otp_code);
+                $stmt->bindParam(':usdt_balance', $this->usdt_balance); // Bind the usdt_balance parameter
                 $nexus_id = 'NX_' . bin2hex(random_bytes(8));  // Génération d'un ID unique
                 $stmt->bindParam(':nexus_id', $nexus_id);
                 if ($stmt->execute()) {
@@ -91,9 +113,8 @@
                 echo "Erreur: " . $e->getMessage();
                 return false;
             }
-        }
-        
-        
+        } 
+    
 
         public static function logout() {
             session_start();

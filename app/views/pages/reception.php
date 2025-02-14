@@ -1,7 +1,7 @@
 
 
 <?php
-
+session_start();
 $titre = 'Réception de Cryptos';
 ob_start();
 ?>
