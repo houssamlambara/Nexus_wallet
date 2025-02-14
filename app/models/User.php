@@ -63,8 +63,8 @@ class User
         if ($stmt->rowCount() === 1) {
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } else {
-            echo "<script>alert('Adresse e-mail introuvable. Veuillez vérifier vos informations.');</script>";
-            header("Refresh: 0; URL=index");
+            $_session['error'] ='Adresse e-mail introuvable. Veuillez vérifier vos informations.';
+//            header("Refresh: 0; URL=index");
         }
     }
 
@@ -103,7 +103,7 @@ class User
                 $stmt->bindParam(':nexus_id', $nexus_id);
                 if ($stmt->execute()) {
                     $this->id_user = $pdo->lastInsertId();
-                    echo 'added successfully';
+//                    $_SESSION['success'] ='added successfully';
                     return true;
                 }
             } catch (PDOException $e) {
