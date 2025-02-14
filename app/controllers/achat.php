@@ -4,7 +4,6 @@
 
         public function index(){
 
-
-            $this->view('pages/achat');
+            $this->view('pages/achat',[]);
         }
     }
