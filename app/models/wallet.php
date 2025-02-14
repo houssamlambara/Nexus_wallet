@@ -37,17 +37,20 @@ class wallet extends Controller {
             return 'Insufficient balance!';
         }
     }
-        public function getBalance($userId) {
-            $conn = DatabaseConnection::getInstance()->getConnection();
-            $balance = $conn->prepare("SELECT usdt_balance FROM users WHERE id = :userId");
-            $balance->bindParam(":userId", $userId);
-            $balance->execute();
-            return $balance->fetchColumn();
-        }
 
-        public function userWallet($idUser) {
-            $conn = DatabaseConnection::getInstance()->getConnection();
-            $crypto = $conn->prepare("
+    public function getBalance($userId)
+    {
+        $conn = DatabaseConnection::getInstance()->getConnection();
+        $balance = $conn->prepare("SELECT usdt_balance FROM users WHERE id = :userId");
+        $balance->bindParam(":userId", $userId);
+        $balance->execute();
+        return $balance->fetchColumn();
+    }
+
+    public function userWallet($idUser)
+    {
+        $conn = DatabaseConnection::getInstance()->getConnection();
+        $crypto = $conn->prepare("
             SELECT 
                 c.name AS crypto_name, 
                 c.symbol, 
@@ -56,44 +59,39 @@ class wallet extends Controller {
             JOIN cryptos c ON w.crypto_id = c.id
             WHERE w.user_id = :user_id;
         ");
-            $crypto->bindParam(":user_id", $idUser);
-            $crypto->execute();
-            return $crypto->fetchAll(PDO::FETCH_ASSOC);
-        }
+        $crypto->bindParam(":user_id", $idUser);
+        $crypto->execute();
+        return $crypto->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 
-
-
-
-
-
-        public function sellCrypto($conn,$userId,$amount,$crypto,$cryptoPrice){
+    public function sellCrypto($conn,$userId,$amount,$crypto,$cryptoPrice){
 
             $checkBalance = $conn->prepare("SELECT balance FROM wallets WHERE user_id = :getID AND crypto_id = :getCrypto AND balance >= :getAmount");
-            $checkBalance->bindParam(":getID",$userId);
-            $checkBalance->bindParam(":getCrypto",$crypto);
-            $checkBalance->bindParam(":getAmount",$amount);
-            if($checkBalance->execute() && $checkBalance->rowCount() > 0){
-                $sellCrypto = $conn->prepare("UPDATE wallets SET balance = balance - :amount WHERE user_id = :getID AND crypto_id = :crypto");
-                $sellCrypto->bindParam(":amount",$amount);
-                $sellCrypto->bindParam(":getID",$userId);
-                $sellCrypto->bindParam(":crypto",$crypto);
-                if($sellCrypto->execute()){
-                    
-                }else{
-                    $returnCrypto = $conn->prepare("UPDATE wallets SET balance = balance + :amount WHERE user_id = :getID AND crypto_id = :crypto");
-                    $returnCrypto->bindParam(":amount",$amount);
-                    $returnCrypto->bindParam(":getID",$userId);
-                    $returnCrypto->bindParam(":crypto",$crypto);
-                    if($returnCrypto->execute()){
-                        return 'Faild to make the exchange, try again later!';
-                    }else{
-                        return 'Error, your sell is pending for now!';
-                    }
+        $checkBalance->bindParam(":getID", $userId);
+        $checkBalance->bindParam(":getCrypto", $crypto);
+        $checkBalance->bindParam(":getAmount", $amount);
+        if ($checkBalance->execute() && $checkBalance->rowCount() > 0) {
+            $sellCrypto = $conn->prepare("UPDATE wallets SET balance = balance - :amount WHERE user_id = :getID AND crypto_id = :crypto");
+            $sellCrypto->bindParam(":amount", $amount);
+            $sellCrypto->bindParam(":getID", $userId);
+            $sellCrypto->bindParam(":crypto", $crypto);
+            if ($sellCrypto->execute()) {
+
+            } else {
+                $returnCrypto = $conn->prepare("UPDATE wallets SET balance = balance + :amount WHERE user_id = :getID AND crypto_id = :crypto");
+                $returnCrypto->bindParam(":amount", $amount);
+                $returnCrypto->bindParam(":getID", $userId);
+                $returnCrypto->bindParam(":crypto", $crypto);
+                if ($returnCrypto->execute()) {
+                    return 'Faild to make the exchange, try again later!';
+                } else {
+                    return 'Error, your sell is pending for now!';
                 }
-            }else{
-                return 'Balance not enough!';
             }
-        
+        } else {
+            return 'Balance not enough!';
+        }
+
     }
-    }
+}
