@@ -1,12 +1,7 @@
 
 <?php
 extract($data);
-<<<<<<< HEAD
-session_start();
-=======
 
-
->>>>>>> ae1e75e98d082da5c2dfc5b6d7234b76bec2cd1a
 $titre = 'Dashboard';
 ob_start();
 
