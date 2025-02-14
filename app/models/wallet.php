@@ -1,5 +1,10 @@
 <?php
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+require_once '../app/vendor/autoload.php';
+
 class wallet extends Controller {
 
     // Existing method for sending USDT
@@ -19,6 +24,41 @@ class wallet extends Controller {
 
                 if ($addMoney->execute()) {
                     return true;
+                    $mail = new PHPMailer(true);
+            
+                    try {
+                        // Activation du débogage SMTP
+                        // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+                
+                        // Configuration SMTP
+                        $mail->isSMTP();                
+                        $mail->Host       = 'smtp.gmail.com';
+                        $mail->SMTPAuth   = true;
+                        $mail->Username   = 'azeddineharchaoui1@gmail.com';
+                        $mail->Password   = 'xwwditshippvwkwq';
+                        $mail->SMTPSecure = 'tls'; // Utiliser TLS
+                        $mail->Port       = 587;    // Port pour TLS
+                
+                        $mail->SMTPOptions = [
+                            'ssl' => [
+                                'verify_peer' => false,
+                                'verify_peer_name' => false,
+                                'allow_self_signed' => true,
+                            ],
+                        ];
+                
+                        $mail->setFrom('azeddineharchaoui1@gmail.com', 'Nexus');
+                        $mail->addAddress($email);
+                
+                        // Contenu
+                        $mail->isHTML(true);
+                        $mail->Subject = 'Transaction has been send';
+                        $mail->Body    = "Transaction has been made";
+                
+                        $mail->send();
+                    } catch (Exception $e) {
+                        error_log("Erreur d'envoi d'email : {$mail->ErrorInfo}");
+                    }
                 } else {
                     $returnMoney = $conn->prepare("UPDATE users SET usdt_balance = usdt_balance + :getAmount WHERE id = :getIdSend");
                     $returnMoney->bindParam(":getAmount", $price);
