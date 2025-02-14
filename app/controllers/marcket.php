@@ -10,7 +10,7 @@ class marcket extends Controller
 
     public function marcket1()
     {
-        $fromAPI = $this->marcketmodel->getdatafromapi();
+        $fromAPI = $this->marcketmodel->getDataFromApi();
         $data = ['data' => $fromAPI];
 
         $this->view('home/marcket', $data);

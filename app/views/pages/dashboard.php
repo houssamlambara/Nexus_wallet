@@ -1,7 +1,12 @@
 
 <?php
 extract($data);
+<<<<<<< HEAD
 session_start();
+=======
+
+
+>>>>>>> ae1e75e98d082da5c2dfc5b6d7234b76bec2cd1a
 $titre = 'Dashboard';
 ob_start();
 ?>
@@ -23,7 +28,12 @@ ob_start();
                 <div class="text-2xl font-bold"><?php
                     $userBalance = $userBalance ?? 1000; // Default to 0 if undefined or null
                     echo number_format((float) $userBalance, 2) . " USD";
+<<<<<<< HEAD
                     ?> USD</div>
+=======
+                    ?>
+                    USD</div>
+>>>>>>> ae1e75e98d082da5c2dfc5b6d7234b76bec2cd1a
                 <div class="text-green-500 text-sm">+2.5% today</div>
             </div>
 
