@@ -94,14 +94,8 @@ class wallet extends Controller {
             }else{
                 return 'Balance not enough!';
             }
-<<<<<<< HEAD
 
 
         }
 
     }
-=======
-        
-    }
-    }
->>>>>>> ae1e75e98d082da5c2dfc5b6d7234b76bec2cd1a
