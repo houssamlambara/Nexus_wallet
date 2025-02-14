@@ -143,10 +143,10 @@
             $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
             $nexusID = 'NX_' . bin2hex(random_bytes(16));
             $otpCode = rand(100000, 999999); // Générer un code OTP à 6 chiffres
-    
+            $_SESSION['success'] = "success message";
             try {
                 $user = $this->model('User', null, $first_name, $last_name, $dob, $email, $password, $nexusID, 0, $otpCode);
-                
+
                 if ($user->register()) {
                     if ($this->sendVerificationEmail($email, $otpCode)) {
                         $_SESSION['success']='Un email de vérification avec un code OTP a été envoyé !';
