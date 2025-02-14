@@ -36,4 +36,33 @@ class wallet extends Controller {
             return 'Insufficient balance!';
         }
     }
+
+
+    public function sellCrypto($conn,$userId,$amount,$crypto,$cryptoPrice){
+        $checkBalance = $conn->prepare("SELECT balance FROM wallets WHERE user_id = :getID AND crypto_id = :getCrypto AND balance >= :getAmount");
+        $checkBalance->bindParam(":getID",$userId);
+        $checkBalance->bindParam(":getCrypto",$crypto);
+        $checkBalance->bindParam(":getAmount",$amount);
+        if($checkBalance->execute() && $checkBalance->rowCount() > 0){
+            $sellCrypto = $conn->prepare("UPDATE wallets SET balance = balance - :amount WHERE user_id = :getID AND crypto_id = :crypto");
+            $sellCrypto->bindParam(":amount",$amount);
+            $sellCrypto->bindParam(":getID",$userId);
+            $sellCrypto->bindParam(":crypto",$crypto);
+            if($sellCrypto->execute()){
+                
+            }else{
+                $returnCrypto = $conn->prepare("UPDATE wallets SET balance = balance + :amount WHERE user_id = :getID AND crypto_id = :crypto");
+                $returnCrypto->bindParam(":amount",$amount);
+                $returnCrypto->bindParam(":getID",$userId);
+                $returnCrypto->bindParam(":crypto",$crypto);
+                if($returnCrypto->execute()){
+                    return 'Faild to make the exchange, try again later!';
+                }else{
+                    return 'Error, your sell is pending for now!';
+                }
+            }
+        }else{
+            return 'Balance not enough!';
+        }
     }
+}
