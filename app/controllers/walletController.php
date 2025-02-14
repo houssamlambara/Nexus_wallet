@@ -23,8 +23,8 @@ class WalletController extends Controller
 
         $data = [
             'userBalance' => $this->walletModel->getBalance($user_id),
-            'wallets' => $userModel->getUserWallets($user_id),
-            'crypto' => $userModel->userWallet($user_id)  // Add this line to get crypto data
+
+            'crypto' => $this->walletModel->userWallet($user_id)  // Add this line to get crypto data
         ];
 
         $this->view('pages/dashboard', $data);
