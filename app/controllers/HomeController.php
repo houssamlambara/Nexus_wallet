@@ -60,7 +60,7 @@
                 $mail->Host       = 'smtp.gmail.com';
                 $mail->SMTPAuth   = true;
                 $mail->Username   = 'azeddineharchaoui1@gmail.com';
-                $mail->Password   = 'xwwd itsh ippv wkwq'; 
+                $mail->Password   = 'xwwditshippvwkwq'; 
                 $mail->SMTPSecure = 'tls'; // Utiliser TLS
                 $mail->Port       = 587;    // Port pour TLS
         
@@ -104,7 +104,7 @@
                             header("Location: http://localhost/Nexus_wallet/dashboard");
                             exit();
                         } else {
-                            $this->sendVerificationEmail($user['email'], $user['verification_token']);
+                            $this->sendVerificationEmail($user['email'], $user['otp_code']);
                             echo "<script>alert('Votre compte n'est pas vérifié. Un nouvel email de vérification a été envoyé.');</script>";
                             $this->view("login/verify");
                         }
