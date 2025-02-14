@@ -67,35 +67,71 @@ class wallet extends Controller {
 
     
 
-        public function sellCrypto($conn,$userId,$amount,$crypto,$cryptoPrice){
-
+        public function sellCrypto($conn, $userId, $amount, $crypto, $cryptoPrice) {
+            // Check if amount and cryptoPrice are valid
+            if (empty($amount) || !is_numeric($amount)) {
+                return 'Amount must be a valid number!';
+            }
+        
+            if (empty($cryptoPrice) || !is_numeric($cryptoPrice)) {
+                return 'Crypto price must be a valid number!';
+            }
+        
             $checkBalance = $conn->prepare("SELECT balance FROM wallets WHERE user_id = :getID AND crypto_id = :getCrypto AND balance >= :getAmount");
-            $checkBalance->bindParam(":getID",$userId);
-            $checkBalance->bindParam(":getCrypto",$crypto);
-            $checkBalance->bindParam(":getAmount",$amount);
-            if($checkBalance->execute() && $checkBalance->rowCount() > 0){
+            $checkBalance->bindParam(":getID", $userId);
+            $checkBalance->bindParam(":getCrypto", $crypto);
+            $checkBalance->bindParam(":getAmount", $amount);
+            if ($checkBalance->execute() && $checkBalance->rowCount() > 0) {
                 $sellCrypto = $conn->prepare("UPDATE wallets SET balance = balance - :amount WHERE user_id = :getID AND crypto_id = :crypto");
-                $sellCrypto->bindParam(":amount",$amount);
-                $sellCrypto->bindParam(":getID",$userId);
-                $sellCrypto->bindParam(":crypto",$crypto);
-                if($sellCrypto->execute()){
-                    
-                }else{
-                    $returnCrypto = $conn->prepare("UPDATE wallets SET balance = balance + :amount WHERE user_id = :getID AND crypto_id = :crypto");
-                    $returnCrypto->bindParam(":amount",$amount);
-                    $returnCrypto->bindParam(":getID",$userId);
-                    $returnCrypto->bindParam(":crypto",$crypto);
-                    if($returnCrypto->execute()){
-                        return 'Faild to make the exchange, try again later!';
-                    }else{
-                        return 'Error, your sell is pending for now!';
+                $sellCrypto->bindParam(":amount", $amount);
+                $sellCrypto->bindParam(":getID", $userId);
+                $sellCrypto->bindParam(":crypto", $crypto);
+                if ($sellCrypto->execute()) {
+                    $addCrypto = $conn->prepare("UPDATE users SET usdt_balance = usdt_balance + :amount WHERE id = :getID");
+                    $addCrypto->bindParam(":amount", $cryptoPrice);
+                    $addCrypto->bindParam(":getID", $userId);
+                    if ($addCrypto->execute()) {
+                        return true;
+                    } else {
+                        // Revert the sell operation if adding the crypto failed
+                        $returnCrypto = $conn->prepare("UPDATE wallets SET balance = balance + :amount WHERE user_id = :getID AND crypto_id = :crypto");
+                        $returnCrypto->bindParam(":amount", $amount);
+                        $returnCrypto->bindParam(":getID", $userId);
+                        $returnCrypto->bindParam(":crypto", $crypto);
+                        if ($returnCrypto->execute()) {
+                            return 'Failed to make the exchange, try again later!';
+                        } else {
+                            return 'Error, your sell is pending for now!';
+                        }
                     }
+                } else {
+                    return 'Failed to make a sell, try again later!';
                 }
-            }else{
+            } else {
                 return 'Balance not enough!';
             }
+        }
+        
 
+        public function getPrice($conn,$userId,$amount,$crypto){
+            $checkExict = $conn->prepare("SELECT coin_price FROM watchlist WHERE crypto_id = :crypto AND user_id = :getID");
+            $checkExict->bindParam(":crypto",$crypto);
+            $checkExict->bindParam(":getID",$userId);
+            if($checkExict->execute() && $checkExict->rowCount() > 0){
+                $getAmountUsdt = $checkExict->fetchColumn()*$amount;
+                return $this->sellCrypto($conn,$userId,$amount,$crypto,$getAmountUsdt);
+            }else{
+                return "Invalid crypto!";
+            }
+        }
 
+        public static function getCryptoWatchlist($conn){
+            $getCrypto = $conn->prepare("SELECT * FROM watchlist");
+            if($getCrypto->execute() && $getCrypto->rowCount() > 0){
+                return $getCrypto;
+            }else{
+                return null;
+            }
         }
 
     }

@@ -17,7 +17,7 @@
                 $cryptoPrice = '';
                 if(!empty($getUserId) && !empty($getCrypto) && !empty($getAmount)){
                     $createInstance = new wallet();
-                    $callFunction = $createInstance->sellCrypto(DatabaseConnection::getInstance()->getConnection(),$getUserId,$getAmount,$getCrypto,$cryptoPrice);
+                    $callFunction = $createInstance->getPrice(DatabaseConnection::getInstance()->getConnection(),$getUserId,$getAmount,$getCrypto);
                     if($callFunction === true){
                         header('Location: http://localhost/Nexus_wallet/vente');
                         $_SESSION['alert'] = '<script>alert("Success sell!")</script>';

@@ -47,7 +47,7 @@
                     <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
                         <i class="fas fa-cube text-sm"></i>
                     </div>
-                    <span class="text-xl font-bold">CritoX</span>
+                    <a href="../home" class="text-xl font-bold">CritoX</a>
                 </div>
             </div>
             
@@ -57,12 +57,6 @@
             <a href="<?php echo URLROOT .'walletController/home'?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 text-gray-400 hover:text-white transition-colors">
                 <i class="fas fa-home"></i>
                 <span>Dashboard</span>
-            </a>
-        </li>
-        <li>
-            <a href="<?php echo URLROOT .'reception/index'  ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 text-gray-400 hover:text-white transition-colors">
-                <i class="fas fa-download"></i>
-                <span>Réception</span>
             </a>
         </li>
         <li>
