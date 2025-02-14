@@ -3,7 +3,8 @@
 class wallet extends Controller {
 
     // Existing method for sending USDT
-    public function sendUsdt($conn, $price, $getIdSend, $getUser) {
+    public function sendUsdt($conn, $price, $getIdSend, $getUser)
+    {
         $checkMoney = $conn->prepare("SELECT usdt_balance FROM users WHERE id = :sender");
         $checkMoney->bindParam(":sender", $getIdSend);
         if ($checkMoney->execute() && $checkMoney->fetchColumn() >= $price) {
@@ -35,6 +36,7 @@ class wallet extends Controller {
         } else {
             return 'Insufficient balance!';
         }
+    }
         public function getBalance($userId) {
             $conn = DatabaseConnection::getInstance()->getConnection();
             $balance = $conn->prepare("SELECT usdt_balance FROM users WHERE id = :userId");
@@ -62,7 +64,7 @@ class wallet extends Controller {
 
 
 
-    }
+
 
         public function sellCrypto($conn,$userId,$amount,$crypto,$cryptoPrice){
 
