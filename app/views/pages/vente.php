@@ -66,7 +66,6 @@ fetch(url)
 
         </script>
 
-
         <?php
 
 $content = ob_get_clean();
