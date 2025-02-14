@@ -23,8 +23,8 @@ class WalletController extends Controller
 
         $data = [
             'userBalance' => $this->walletModel->getBalance($user_id),
-            'wallets' => $userModel->getUserWallets($user_id),
-            'crypto' => $userModel->userWallet($user_id)  // Add this line to get crypto data
+
+            'crypto' => $this->walletModel->userWallet($user_id)  // Add this line to get crypto data
         ];
 
         $this->view('pages/dashboard', $data);
@@ -109,6 +109,23 @@ class WalletController extends Controller
             return;
         }
 
-        // Do something with the wallets data
+
     }
+    public function updateBalance($userId, $newBalance)
+    {
+        // Validate the input
+        if (!is_numeric($newBalance) || $newBalance < 0) {
+            return 'Invalid balance amount.';
+        }
+
+        // Update the balance using the model
+        $result = $this->walletModel->updateUserBalance($userId, $newBalance);
+
+        if ($result) {
+            return 'Balance updated successfully.';
+        } else {
+            return 'Failed to update balance.';
+        }
+    }
+
 }

@@ -1,10 +1,8 @@
 
 <?php
 extract($data);
-
 $titre = 'Dashboard';
 ob_start();
-
 ?>
 
 <head>
@@ -21,7 +19,10 @@ ob_start();
                     <h3 class="text-gray-400">Total Balance</h3>
                     <i class="fas fa-wallet text-blue-500"></i>
                 </div>
-                <div class="text-2xl font-bold"><?= number_format($userBalance, 2) ?> USD</div>
+                <div class="text-2xl font-bold"><?php
+                    $userBalance = $userBalance ?? 1000; // Default to 0 if undefined or null
+                    echo number_format((float) $userBalance, 2) . " USD";
+                    ?> USD</div>
                 <div class="text-green-500 text-sm">+2.5% today</div>
             </div>
 
@@ -98,6 +99,7 @@ ob_start();
                     </thead>
                     <tbody>
                     <?php
+                    if (isset($crypto) && is_array($crypto)) {
                     foreach ($crypto as $asset) {
                         $cryptoName = $asset['crypto_name'];
                         $symbol = $asset['symbol'];
@@ -120,7 +122,9 @@ ob_start();
                             <td class="text-right crypto-value" id="value-<?= strtolower($symbol) ?>">Loading...</td>
                             <td class="text-right crypto-change" id="change-<?= strtolower($symbol) ?>">Loading...</td>
                         </tr>
-                    <?php } ?>
+                    <?php }} else {
+    echo "No crypto data available";
+} ?>
                     </tbody>
                 </table>
             </div>

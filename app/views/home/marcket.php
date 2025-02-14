@@ -1,6 +1,5 @@
 <?php
-session_start();
-var_dump($_SESSION['user_id']) ?>;
+session_start();?>
 
 
 
@@ -72,6 +71,7 @@ var_dump($_SESSION['user_id']) ?>;
     </div>
 
     <!-- Navigation -->
+    <!-- Navigation -->
     <nav class="sticky top-0 z-50 bg-dark/80 backdrop-blur-lg border-b border-gray-800  px-12">
         <div class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
@@ -83,7 +83,7 @@ var_dump($_SESSION['user_id']) ?>;
                 </div>
 
                 <div class="hidden md:flex space-x-8">
-                    <a href="http://localhost/Nexus_wallet/marcket/marcket1" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
+                    <a href="<?php echo  URLROOT . 'WatchlistController/chihaja' ?>" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
                         <i class="fas fa-shopping-cart"></i>
                         <span>Buy</span>
                     </a>
@@ -92,22 +92,34 @@ var_dump($_SESSION['user_id']) ?>;
                         <span>Sell</span>
                     </a>
 
-                    <a href="http://localhost/Nexus_wallet/marcket/marcket1" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
+                    <a href="<?php echo URLROOT . 'marcket/marcket1'; ?>" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
                         <i class="fas fa-chart-line"></i>
                         <span>Markets</span>
                     </a>
                 </div>
+                <?php if(!isset($_SESSION['user_id'])){ ?>
+                    <div class="flex items-center space-x-4">
+                        <a href='http://localhost/Nexus_wallet/homeController/login' class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
+                            <i class="fas fa-wallet"></i>
+                            <span>Login</span>
+                        </a>
+                        <a href='http://localhost/Nexus_wallet/homeController/register' class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
+                            <i class="fas fa-wallet"></i>
+                            <span>Register</span>
+                        </a>
+                    </div>
+                <?php } else {?>
+                    <div class="flex items-center space-x-4">
+                        <a  class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 ">
 
-                <div class="flex items-center space-x-4">
-                    <a href='homeController/login' class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
-                        <i class="fas fa-wallet"></i>
-                        <span>Login</span>
-                    </a>
-                    <a href='homeController/register' class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
-                        <i class="fas fa-wallet"></i>
-                        <span>Register</span>
-                    </a>
-                </div>
+                            <span><?php echo $_SESSION['user_name']; ?></span>
+                        </a>
+                        <a href='http://localhost/Nexus_wallet/homeController/logout' class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
+                            <i class="fas fa-wallet"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                <?php } ?>
             </div>
         </div>
     </nav>
