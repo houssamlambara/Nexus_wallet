@@ -53,14 +53,14 @@
             
             try {
                 // Activation du débogage SMTP
-                $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+                // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
         
                 // Configuration SMTP
                 $mail->isSMTP();                
                 $mail->Host       = 'smtp.gmail.com';
                 $mail->SMTPAuth   = true;
                 $mail->Username   = 'azeddineharchaoui1@gmail.com';
-                $mail->Password   = 'xwwd itsh ippv wkwq'; 
+                $mail->Password   = 'xwwditshippvwkwq';
                 $mail->SMTPSecure = 'tls'; // Utiliser TLS
                 $mail->Port       = 587;    // Port pour TLS
         
@@ -101,19 +101,21 @@
                             $_SESSION['user_id'] = $user['id'];
                             $_SESSION['user_name'] = $user['first_name'];
                             $_SESSION['balance'] = 0;
-                            header("Location: http://localhost/Nexus_wallet/walletController/home");
+                            header("Location: http://localhost/Nexus_wallet/dashboard");
                             exit();
                         } else {
-                            $this->sendVerificationEmail($user['email'], $user['verification_token']);
-                            echo "<script>alert('Votre compte n'est pas vérifié. Un nouvel email de vérification a été envoyé.');</script>";
+                            $this->sendVerificationEmail($user['email'], $user['otp_code']);
+//                            echo "<script>alert('Votre compte n'est pas vérifié. Un nouvel email de vérification a été envoyé.');</script>";
+                            $_SESSION['error'] = "Votre compte n'est pas vérifié. Un nouvel email de vérification a été envoyé";
                             $this->view("login/verify");
                         }
                     } else {
-                        echo "<script>alert('Email ou mot de passe incorrect !');</script>";
-                        echo '<meta http-equiv="refresh" content="0;url=index">';
+                        $_SESSION['error'] ='Email ou mot de passe incorrect !';
+                        $this->view("login/login");
+//                        echo '<meta http-equiv="refresh" content="0;url=index">';
                     }
                 } else {
-                    echo "<script>alert('Veuillez remplir tous les champs !');</script>";
+                    $_session['error'] ='Veuillez remplir tous les champs !';
                     echo '<meta http-equiv="refresh" content="0;url=index">';
                 }
             }
@@ -140,18 +142,18 @@
             $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
             $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
             $nexusID = 'NX_' . bin2hex(random_bytes(16));
-
             $otpCode = rand(100000, 999999); // Générer un code OTP à 6 chiffres
-    
+            $_SESSION['success'] = "success message";
             try {
-                $user = $this->model('User', null, $first_name, $last_name, $dob, $email, $password, $nexusID, $otpCode);
-                
+                $user = $this->model('User', null, $first_name, $last_name, $dob, $email, $password, $nexusID, 0, $otpCode);
+
                 if ($user->register()) {
                     if ($this->sendVerificationEmail($email, $otpCode)) {
-                        echo "<script>alert('Un email de vérification avec un code OTP a été envoyé !');</script>";
+                        $_SESSION['success']='Un email de vérification avec un code OTP a été envoyé !';
                         $this->view("login/verify");
                     } else {
-                        throw new Exception("Erreur lors de l'envoi de l'email de vérification");
+                        $_SESSION['error']="Erreur lors de l'envoi de l'email de vérification";
+                        $this->view("login/signup");
                     }
                     exit();
                 } else {

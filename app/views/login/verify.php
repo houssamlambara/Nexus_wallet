@@ -42,17 +42,58 @@
       <p class="text-gray-300">Enter the OTP sent to your email to complete the verification</p>
     </div>
     <form method="post" id="otpForm" action="../homeController/verifyEmail" type="submit">
+    <div class="mb-6">
+        <label for="email" class="block text-sm font-medium mb-2">Email</label>
+        <input type="text" id="email" name="email" class="w-full px-4 py-3 input-field rounded-lg focus:outline-none" placeholder="Enter the email" required>
+      </div>
       <div class="mb-6">
         <label for="otp" class="block text-sm font-medium mb-2">OTP Code</label>
         <input type="text" id="otp" name="otp" class="w-full px-4 py-3 input-field rounded-lg focus:outline-none" placeholder="Enter the 6-digit OTP" required maxlength="6">
       </div>
       <button type="submit" class="w-full btn-primary text-white py-3 rounded-lg font-semibold" name='submit'>Verify OTP</button>
     </form>
-    <div class="mt-6 text-center">
-      <p class="text-gray-300">Didn't receive the code? <a href="#" class="text-blue-400 hover:underline">Resend OTP</a></p>
-    </div>
   </div>
 
 
 </body>
 </html>
+
+<?php
+
+if(isset($_SESSION['success'])){
+    $message = $_SESSION['success'];
+    echo "
+        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'success',
+                text: '$message',
+                confirmButtonText: 'OK',
+                timer: 5000
+            });
+        </script>
+    ";
+    unset($_SESSION['success']);
+}
+?>
+
+<?php
+
+if(isset($_SESSION['error'])){
+    $message = $_SESSION['error'];
+    echo "
+        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'error',
+                text: '$message',
+                confirmButtonText: 'OK',
+                timer: 5000
+            });
+        </script>
+    ";
+    unset($_SESSION['error']);
+}
+?>

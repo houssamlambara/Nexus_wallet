@@ -1,8 +1,7 @@
 
 <?php
-
 extract($data);
-
+session_start();
 $titre = 'Dashboard';
 ob_start();
 
