@@ -2,7 +2,7 @@
 <?php
 
 extract($data);
-session_start();
+
 $titre = 'Dashboard';
 ob_start();
 
@@ -82,7 +82,6 @@ ob_start();
             </div>
         </div>
 
-        <!-- Assets Table -->
         <div class="bg-dark-light rounded-xl">
             <div class="p-6 border-b border-gray-800">
                 <h3 class="font-bold">Your Assets</h3>
@@ -96,56 +95,33 @@ ob_start();
                         <th class="text-right">Price</th>
                         <th class="text-right">Value</th>
                         <th class="text-right">24h Change</th>
-                        <th class="text-right p-6">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="border-t border-gray-800">
-                        <td class="p-6">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-8 h-8 bg-yellow-500/20 rounded-full flex items-center justify-center">
-                                    <i class="fab fa-bitcoin text-yellow-500"></i>
+                    <?php
+                    foreach ($crypto as $asset) {
+                        $cryptoName = $asset['crypto_name'];
+                        $symbol = $asset['symbol'];
+                        $balance = $asset['balance'];
+                        ?>
+                        <tr class="border-t border-gray-800" data-symbol="<?= strtolower($symbol) ?>">
+                            <td class="p-6">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 bg-yellow-500/20 rounded-full flex items-center justify-center">
+                                        <i class="fab fa-bitcoin text-yellow-500"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium"><?= $cryptoName ?></div>
+                                        <div class="text-gray-400 text-sm"><?= strtoupper($symbol) ?></div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <div class="font-medium">Bitcoin</div>
-                                    <div class="text-gray-400 text-sm">BTC</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="text-right">2.5634 BTC</td>
-                        <td class="text-right">$45,234.12</td>
-                        <td class="text-right">$115,936.56</td>
-                        <td class="text-right text-green-500">+2.5%</td>
-                        <td class="p-6">
-                            <div class="flex space-x-2">
-                                <button class="px-3 py-1 rounded-lg bg-blue-500 hover:bg-blue-600 text-sm">Trade</button>
-                                <button class="px-3 py-1 rounded-lg bg-gray-800 hover:bg-gray-700 text-sm">Send</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="border-t border-gray-800">
-                        <td class="p-6">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center">
-                                    <i class="fab fa-ethereum text-blue-500"></i>
-                                </div>
-                                <div>
-                                    <div class="font-medium">Ethereum</div>
-                                    <div class="text-gray-400 text-sm">ETH</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="text-right">12.8934 ETH</td>
-                        <td class="text-right">$2,456.78</td>
-                        <td class="text-right">$31,655.89</td>
-                        <td class="text-right text-green-500">+3.2%</td>
-                        <td class="p-6">
-                            <div class="flex space-x-2">
-                                <button class="px-3 py-1 rounded-lg bg-blue-500 hover:bg-blue-600 text-sm">Trade</button>
-                                <button class="px-3 py-1 rounded-lg bg-gray-800 hover:bg-gray-700 text-sm">Send</button>
-                            </div>
-                        </td>
-                    </tr>
+                            </td>
+                            <td class="text-right crypto-balance"><?= number_format($balance, 4) ?> <?= strtoupper($symbol) ?></td>
+                            <td class="text-right crypto-price" id="price-<?= strtolower($symbol) ?>">Loading...</td>
+                            <td class="text-right crypto-value" id="value-<?= strtolower($symbol) ?>">Loading...</td>
+                            <td class="text-right crypto-change" id="change-<?= strtolower($symbol) ?>">Loading...</td>
+                        </tr>
+                    <?php } ?>
                     </tbody>
                 </table>
             </div>
@@ -312,6 +288,89 @@ ob_start();
         // Update chart data every 5 minutes
         setInterval(fetchCryptoPriceData, 5 * 60 * 1000);
     });
+
+
+
+
+    // Function to update crypto prices and calculations
+    function number_format(number, decimals) {
+        return number.toLocaleString('en-US', {
+            minimumFractionDigits: decimals,
+            maximumFractionDigits: decimals
+        });
+    }
+
+    // Function to update crypto prices and calculations
+    async function updateCryptoPrices() {
+        const rows = document.querySelectorAll('tbody tr');
+
+        try {
+            // First get a list of all cryptocurrency IDs we need to fetch
+            const coins = Array.from(rows).map(row => {
+                const symbol = row.dataset.symbol;
+                return {
+                    element: row,
+                    id: symbol.toLowerCase()
+                };
+            });
+
+            // Make the API call using symbols directly
+            const response = await fetch(
+                `https://api.coingecko.com/api/v3/simple/price?ids=${coins.map(c => c.id).join(',')}&vs_currencies=usd&include_24h_change=true`
+            );
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            console.log("API Response:", data); // Debug log
+
+            // Update each row with the fetched data
+            coins.forEach(({element, id}) => {
+                const cryptoData = data[id];
+                console.log(`Processing ${id}:`, cryptoData); // Debug log
+
+                if (cryptoData) {
+                    const price = cryptoData.usd;
+                    const change = cryptoData.usd_24h_change;
+                    // Get balance without the currency symbol
+                    const balanceText = element.querySelector('.crypto-balance').textContent;
+                    const balance = parseFloat(balanceText.split(' ')[0].replace(',', ''));
+                    const value = price * balance;
+
+                    // Update the elements
+                    element.querySelector('.crypto-price').textContent = `$${number_format(price, 2)}`;
+                    element.querySelector('.crypto-value').textContent = `$${number_format(value, 2)}`;
+                    element.querySelector('.crypto-change').textContent = `${change?.toFixed(2) || '0.00'}%`;
+                    element.querySelector('.crypto-change').className =
+                        `text-right crypto-change ${(change || 0) >= 0 ? 'text-green-500' : 'text-red-500'}`;
+                } else {
+                    console.error(`No data found for ${id}`);
+                    // Set specific error message for debugging
+                    element.querySelector('.crypto-price').textContent = `No data for ${id}`;
+                    element.querySelector('.crypto-value').textContent = 'N/A';
+                    element.querySelector('.crypto-change').textContent = 'N/A';
+                }
+            });
+        } catch (error) {
+            console.error('Error fetching crypto prices:', error);
+            // Show the specific error message
+            rows.forEach(row => {
+                row.querySelector('.crypto-price').textContent = `API Error: ${error.message}`;
+                row.querySelector('.crypto-value').textContent = 'Error';
+                row.querySelector('.crypto-change').textContent = 'Error';
+            });
+        }
+    }
+
+    // Make sure to call the function when the page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM loaded, fetching crypto prices...'); // Debug log
+        updateCryptoPrices();
+        setInterval(updateCryptoPrices, 60000); // Update every minute
+    });
+
 </script>
 
 <?php
