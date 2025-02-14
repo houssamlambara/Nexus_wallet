@@ -57,3 +57,43 @@
 
 </body>
 </html>
+
+<?php
+
+if(isset($_SESSION['success'])){
+    $message = $_SESSION['success'];
+    echo "
+        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'success',
+                text: '$message',
+                confirmButtonText: 'OK',
+                timer: 5000
+            });
+        </script>
+    ";
+    unset($_SESSION['success']);
+}
+?>
+
+<?php
+
+if(isset($_SESSION['error'])){
+    $message = $_SESSION['error'];
+    echo "
+        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'error',
+                text: '$message',
+                confirmButtonText: 'OK',
+                timer: 5000
+            });
+        </script>
+    ";
+    unset($_SESSION['error']);
+}
+?>

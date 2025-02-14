@@ -13,16 +13,12 @@ ob_start();
                         <h3 class="font-bold">Vendre des Cryptomonnaies contre USDT</h3>
                     </div>
                     <div class="px-6 py-4">
-                        <form action="#" method="POST">
+                        <form action="sellController/sellCrypto" method="POST">
                             <div class="space-y-4">
                                 <!-- Select Crypto -->
                                 <div>
                                     <label for="crypto-select" class="block text-sm font-medium text-gray-300">Sélectionnez une crypto</label>
                                     <select id="crypto-select" name="crypto" class="block w-full mt-1 bg-dark-light border border-gray-700 text-white py-2 px-3 rounded-lg">
-                                        <option value="BTC">Bitcoin (BTC)</option>
-                                        <option value="ETH">Ethereum (ETH)</option>
-                                        <option value="LTC">Litecoin (LTC)</option>
-                                        <option value="ADA">Cardano (ADA)</option>
                                         <!-- Add more cryptos as needed -->
                                     </select>
                                 </div>
@@ -35,7 +31,7 @@ ob_start();
                                 
                                 <!-- Confirmation Button -->
                                 <div class="mt-4">
-                                    <button type="submit" class="w-full py-2 px-4 bg-primary text-white rounded-lg hover:bg-blue-600 transition-colors">
+                                    <button name="sellCrypto" type="submit" class="w-full py-2 px-4 bg-primary text-white rounded-lg hover:bg-blue-600 transition-colors">
                                         Confirmer la vente
                                     </button>
                                 </div>
@@ -45,7 +41,30 @@ ob_start();
                 </div>
             </div>
         </main>
+            <?php
+                if(isset($_SESSION['alert'])){
+                    echo $_SESSION['alert'];
+                    unset($_SESSION['alert']);
+                }
 
+            ?>
+
+        <script>
+            const url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1";
+
+fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        const cryptoList = document.getElementById('crypto-select');
+        cryptoList.innerHTML = ''; // Clear existing content
+
+        data.forEach(crypto => {
+            cryptoList.innerHTML += `<option value="${crypto['id']}">${crypto['name']}</option>`;
+        });
+    })
+    .catch(error => console.error('Error fetching data:', error));
+
+        </script>
 
         <?php
 
