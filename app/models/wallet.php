@@ -7,7 +7,6 @@ require_once '../app/vendor/autoload.php';
 
 class wallet extends Controller {
 
-    // Existing method for sending USDT
     public function sendUsdt($conn, $price, $getIdSend, $getUser)
     {
         $checkMoney = $conn->prepare("SELECT usdt_balance FROM users WHERE id = :sender");
@@ -23,21 +22,16 @@ class wallet extends Controller {
                 $addMoney->bindParam(":getUser", $getUser);
 
                 if ($addMoney->execute()) {
-                    return true;
                     $mail = new PHPMailer(true);
             
                     try {
-                        // Activation du débogage SMTP
-                        // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
-                
-                        // Configuration SMTP
                         $mail->isSMTP();                
                         $mail->Host       = 'smtp.gmail.com';
                         $mail->SMTPAuth   = true;
-                        $mail->Username   = 'azeddineharchaoui1@gmail.com';
-                        $mail->Password   = 'xwwditshippvwkwq';
-                        $mail->SMTPSecure = 'tls'; // Utiliser TLS
-                        $mail->Port       = 587;    // Port pour TLS
+                        $mail->Username   = 'azeddineharchaoui1@gmail.com'; // Replace with your email
+                        $mail->Password   = 'xwwditshippvwkwq'; // Replace with your email app password
+                        $mail->SMTPSecure = 'tls';
+                        $mail->Port       = 587;
                 
                         $mail->SMTPOptions = [
                             'ssl' => [
@@ -48,17 +42,27 @@ class wallet extends Controller {
                         ];
                 
                         $mail->setFrom('azeddineharchaoui1@gmail.com', 'Nexus');
-                        $mail->addAddress($email);
-                
-                        // Contenu
-                        $mail->isHTML(true);
-                        $mail->Subject = 'Transaction has been send';
-                        $mail->Body    = "Transaction has been made";
-                
-                        $mail->send();
+                        
+                        $getEmail = $conn->prepare("SELECT email FROM users WHERE email = :getUser OR nexus_id = :getUser");
+                        $getEmail->bindParam(":getUser", $getUser);
+                        $getEmail->execute();
+                        $email = $getEmail->fetchColumn();
+
+                        if ($email) {
+                            $mail->addAddress($email);
+                            $mail->isHTML(true);
+                            $mail->Subject = 'Transaction Notification';
+                            $mail->Body    = "A transaction of $price USDT has been successfully sentded.";
+
+                            $mail->send();
+                        } else {
+                            error_log('Email address not found for user: ' . $getUser);
+                        }
                     } catch (Exception $e) {
-                        error_log("Erreur d'envoi d'email : {$mail->ErrorInfo}");
+                        error_log("Error sending email: {$mail->ErrorInfo}");
                     }
+                    
+                    return true;
                 } else {
                     $returnMoney = $conn->prepare("UPDATE users SET usdt_balance = usdt_balance + :getAmount WHERE id = :getIdSend");
                     $returnMoney->bindParam(":getAmount", $price);
@@ -77,6 +81,8 @@ class wallet extends Controller {
             return 'Insufficient balance!';
         }
     }
+
+
     
     
         public function getBalance($userId) {
