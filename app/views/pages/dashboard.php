@@ -5,8 +5,11 @@ extract($data);
 session_start();
 =======
 
+<<<<<<< HEAD
 
 >>>>>>> ae1e75e98d082da5c2dfc5b6d7234b76bec2cd1a
+=======
+>>>>>>> sendTrans
 $titre = 'Dashboard';
 ob_start();
 ?>

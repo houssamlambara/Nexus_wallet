@@ -37,6 +37,8 @@ class wallet extends Controller {
             return 'Insufficient balance!';
         }
     }
+    
+    
         public function getBalance($userId) {
             $conn = DatabaseConnection::getInstance()->getConnection();
             $balance = $conn->prepare("SELECT usdt_balance FROM users WHERE id = :userId");
@@ -63,7 +65,7 @@ class wallet extends Controller {
 
 
 
-
+    
 
         public function sellCrypto($conn,$userId,$amount,$crypto,$cryptoPrice){
 
