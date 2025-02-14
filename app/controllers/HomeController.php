@@ -53,14 +53,14 @@
             
             try {
                 // Activation du débogage SMTP
-                $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+                // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
         
                 // Configuration SMTP
                 $mail->isSMTP();                
                 $mail->Host       = 'smtp.gmail.com';
                 $mail->SMTPAuth   = true;
                 $mail->Username   = 'azeddineharchaoui1@gmail.com';
-                $mail->Password   = 'xwwd itsh ippv wkwq'; 
+                $mail->Password   = 'xwwditshippvwkwq'; 
                 $mail->SMTPSecure = 'tls'; // Utiliser TLS
                 $mail->Port       = 587;    // Port pour TLS
         
@@ -104,7 +104,7 @@
                             header("Location: http://localhost/Nexus_wallet/dashboard");
                             exit();
                         } else {
-                            $this->sendVerificationEmail($user['email'], $user['verification_token']);
+                            $this->sendVerificationEmail($user['email'], $user['otp_code']);
                             echo "<script>alert('Votre compte n'est pas vérifié. Un nouvel email de vérification a été envoyé.');</script>";
                             $this->view("login/verify");
                         }
@@ -139,11 +139,11 @@
             $dob = $_POST['dob'];
             $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
             $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-            $nexusID = uniqid('NX_');
+            $nexusID = 'NX_' . bin2hex(random_bytes(16));
             $otpCode = rand(100000, 999999); // Générer un code OTP à 6 chiffres
     
             try {
-                $user = $this->model('User', null, $first_name, $last_name, $dob, $email, $password, $nexusID, $otpCode);
+                $user = $this->model('User', null, $first_name, $last_name, $dob, $email, $password, $nexusID, 0, $otpCode);
                 
                 if ($user->register()) {
                     if ($this->sendVerificationEmail($email, $otpCode)) {
