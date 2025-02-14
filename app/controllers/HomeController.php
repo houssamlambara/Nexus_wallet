@@ -101,7 +101,7 @@
                             $_SESSION['user_id'] = $user['id'];
                             $_SESSION['user_name'] = $user['first_name'];
                             $_SESSION['balance'] = 0;
-                            header("Location: http://localhost/Nexus_wallet/dashboard");
+                            header("Location: http://localhost/Nexus_wallet/walletController/home");
                             exit();
                         } else {
                             $this->sendVerificationEmail($user['email'], $user['otp_code']);
