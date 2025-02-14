@@ -14,7 +14,7 @@
                 if(!empty($getDirection) && !empty($typeCrypto) && !empty($getAmount)){
 
                     $createInstance = new wallet();
-
+                    
                     if($typeCrypto === "USDT"){
                         $reponse = $createInstance->sendUsdt(DatabaseConnection::getInstance()->getConnection(),$getAmount,$_SESSION['user_id'],$getDirection);
                         if($reponse === true){
