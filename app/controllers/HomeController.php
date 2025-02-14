@@ -139,7 +139,8 @@
             $dob = $_POST['dob'];
             $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
             $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-            $nexusID = uniqid('NX_');
+            $nexusID = 'NX_' . bin2hex(random_bytes(16));
+
             $otpCode = rand(100000, 999999); // Générer un code OTP à 6 chiffres
     
             try {

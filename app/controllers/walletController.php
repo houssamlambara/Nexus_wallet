@@ -12,15 +12,17 @@ class WalletController extends Controller
         $this->userModel = $this->model('User');
     }
     public function index(){
-        $data = $this->showWallet();
+
+        $data = getBalance($_SESSION['user_id']);
         $this->view('pages/wallet' , $data);
 
 
     }
     public function home()
     {
-        $user_id = 2;
-        $userBalance = $this->userModel->getUserBalance($user_id);
+        $this->userModel = $this->model('wallet');
+        $user_id = $_SESSION['user_id'];
+        $userBalance = $this->userModel->getBalance($user_id);
         $wallets = $this->userModel->getUserWallets($user_id);
 
         // Static cryptocurrencies data

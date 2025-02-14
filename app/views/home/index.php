@@ -6,7 +6,7 @@
 
 // }
 print_r($_SESSION['user_id']);
-print_r($_SESSION['usdt_balance']);
+print_r($_SESSION['balance']);
 print_r($_SESSION['user_name']);
 
 

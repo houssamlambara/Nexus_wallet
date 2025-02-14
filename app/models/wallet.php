@@ -44,4 +44,12 @@
             
 
         }
+        public function getBalance($userId)
+        {
+            $conn = DatabaseConnection::getInstance()->getConnection();
+            $balance = $conn->prepare("SELECT usdt_balance FROM users WHERE id = :userId");
+            $balance->bindParam(":userId", $userId);
+            $balance->execute();
+            $balance = $balance->fetchColumn();
+        }
     }
