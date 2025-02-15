@@ -31,25 +31,25 @@ CREATE TABLE cryptos
 CREATE TABLE watchlist
 (
     id        SERIAL PRIMARY KEY,
-    user_id   INT REFERENCES users (id) ON DELETE CASCADE,
+    id   INT REFERENCES users (id) ON DELETE CASCADE,
     crypto_id INT REFERENCES cryptos (id) ON DELETE CASCADE,
-    UNIQUE (user_id, crypto_id)
+    UNIQUE (id, crypto_id)
 );
 
 -- Création de la table wallets (Portefeuille des utilisateurs, tableau associatif)
 CREATE TABLE wallets
 (
-    user_id   INT REFERENCES users (id) ON DELETE CASCADE,
+    id   INT REFERENCES users (id) ON DELETE CASCADE,
     crypto_id INT REFERENCES cryptos (id) ON DELETE CASCADE,
     balance   DECIMAL(18, 8) DEFAULT 0,
-    PRIMARY KEY (user_id, crypto_id)
+    PRIMARY KEY (id, crypto_id)
 );
 
 -- Création de la tble transactions
 CREATE TABLE transactions
 (
     id               SERIAL PRIMARY KEY,
-    user_id          INT REFERENCES users (id) ON DELETE CASCADE,
+    id          INT REFERENCES users (id) ON DELETE CASCADE,
     crypto_id        INT REFERENCES cryptos (id) ON DELETE CASCADE,
 
                                                   NOT NULL,

@@ -1,5 +1,7 @@
 <?php
-session_start();?>
+session_start();
+var_dump($_SESSION['id'])
+?>
 
 
 
@@ -83,21 +85,21 @@ session_start();?>
                 </div>
 
                 <div class="hidden md:flex space-x-8">
-                    <a href="<?php echo  URLROOT . 'WatchlistController/chihaja' ?>" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
+                    <a href="<?php echo  URLROOT . 'achat' ?>" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
                         <i class="fas fa-shopping-cart"></i>
                         <span>Buy</span>
                     </a>
-                    <a href="#" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
+                    <a href="<?php echo  URLROOT . 'vente' ?>" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
                         <i class="fas fa-dollar-sign"></i>
                         <span>Sell</span>
                     </a>
 
-                    <a href="<?php echo URLROOT . 'marcket/marcket1'; ?>" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
+                    <a href="<?php echo URLROOT. 'marcket/marcket1'; ?>" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
                         <i class="fas fa-chart-line"></i>
                         <span>Markets</span>
                     </a>
                 </div>
-                <?php if(!isset($_SESSION['user_id'])){ ?>
+                <?php if(!isset($_SESSION['id'])){ ?>
                     <div class="flex items-center space-x-4">
                         <a href='http://localhost/Nexus_wallet/homeController/login' class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2">
                             <i class="fas fa-wallet"></i>

@@ -119,7 +119,7 @@ class User
         public static function logout() {
             session_start();
         
-            if (isset($_SESSION['user_id'])) {
+            if (isset($_SESSION['id'])) {
                 session_unset();
                 session_destroy();
                 header("Location: " . APPROOT . "/home/index");  

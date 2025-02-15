@@ -18,13 +18,13 @@ class WalletController extends Controller
     public function index()
     {
 
-        $user_id = $_SESSION['user_id'];
+        $id = $_SESSION['id'];
         $userModel = $this->model('User');
 
         $data = [
-            'userBalance' => $this->walletModel->getBalance($user_id),
+            'userBalance' => $this->walletModel->getBalance($id),
 
-            'crypto' => $this->walletModel->userWallet($user_id)  // Add this line to get crypto data
+            'crypto' => $this->walletModel->userWallet($id)  // Add this line to get crypto data
         ];
 
         $this->view('pages/dashboard', $data);
@@ -32,17 +32,17 @@ class WalletController extends Controller
 
     public function home()
     {
-        // Check if user_id is set in session
-        if (!isset($_SESSION['user_id'])) {
+        // Check if id is set in session
+        if (!isset($_SESSION['id'])) {
             echo "User ID is not set in session.";
             var_dump($_SESSION);
             return;
         }
 
-        $user_id = $_SESSION['user_id'];
-        $userBalance = $this->walletModel->getBalance($user_id);
-//        $wallets = $this->walletModel->userWallet($user_id);
-        $crypto = $this->walletModel->userWallet($user_id);
+        $id = $_SESSION['id'];
+        $userBalance = $this->walletModel->getBalance($id);
+//        $wallets = $this->walletModel->userWallet($id);
+        $crypto = $this->walletModel->userWallet($id);
 
         // Check if data is fetched correctly
 //        if (empty($userBalance) || empty($wallets) || empty($crypto)) {
@@ -60,23 +60,23 @@ class WalletController extends Controller
 
     public function depositWallet()
     {
-        // Check if user_id is set in session
-        if (!isset($_SESSION['user_id'])) {
+        // Check if id is set in session
+        if (!isset($_SESSION['id'])) {
             echo "User ID is not set in session.";
             return;
         }
 
-        $user_id = $_SESSION['user_id'];
+        $id = $_SESSION['id'];
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $amount = htmlspecialchars($_POST['amount']);
 
             if ($amount > 0) {
-                $this->userModel->updateBalance($user_id, $amount);
+                $this->userModel->updateBalance($id, $amount);
             }
 
             // Get updated balance
-            $newBalance = $this->userModel->getUserBalance($user_id);
+            $newBalance = $this->userModel->getUserBalance($id);
 
             // Check if new balance is fetched correctly
             if (empty($newBalance)) {
@@ -93,15 +93,15 @@ class WalletController extends Controller
 
     public function userWalletData()
     {
-        // Check if user_id is set in session
-        if (!isset($_SESSION['user_id'])) {
+        // Check if id is set in session
+        if (!isset($_SESSION['id'])) {
             echo "User ID is not set in session.";
             return;
         }
 
-        $user_id = $_SESSION['user_id'];
+        $id = $_SESSION['id'];
         $this->userModel = $this->model('wallet');
-        $wallets = $this->userModel->userWallet($user_id);
+        $wallets = $this->userModel->userWallet($id);
 
         // Check if wallets data is fetched correctly
         if (empty($wallets)) {

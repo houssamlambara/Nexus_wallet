@@ -17,7 +17,7 @@
         }
 
         public function logout(){
-            if (isset($_SESSION['user_id'])) {
+            if (isset($_SESSION['id'])) {
                 session_unset();
                 session_destroy();
                 header("Location: index");
@@ -98,7 +98,7 @@
         
                     if ($user && password_verify($password, $user['password_hash'])) {
                         if ($user['is_verified']) {
-                            $_SESSION['user_id'] = $user['id'];
+                            $_SESSION['id'] = $user['id'];
                             $_SESSION['user_name'] = $user['first_name'];
                             $_SESSION['balance'] = 0;
                             header("Location: http://localhost/Nexus_wallet/walletController/home");
@@ -168,9 +168,9 @@
     public function test(){
         echo 'test';
     }
-        public function updateBalance($user_id, $amount) {
+        public function updateBalance($id, $amount) {
             // Fetch current balance
-            $currentBalance = $this->userModel->getUserBalance($user_id);
+            $currentBalance = $this->userModel->getUserBalance($id);
 
             if ($currentBalance === false) {
                 return ["success" => false, "message" => "User not found."];
@@ -185,7 +185,7 @@
             }
 
             // Update the balance in the database
-            $updated = $this->userModel->updateUserBalance($user_id, $newBalance);
+            $updated = $this->userModel->updateUserBalance($id, $newBalance);
 
             if ($updated) {
                 return ["success" => true, "message" => "Balance updated successfully.", "newBalance" => $newBalance];

@@ -1,7 +1,7 @@
 <?php
 
 
-    if(isset($_SESSION['user_id']) && isset($_SESSION['user_name']) && !empty($_SESSION['user_id']) && !empty($_SESSION['user_name'])){
+    if(isset($_SESSION['id']) && isset($_SESSION['user_name']) && !empty($_SESSION['id']) && !empty($_SESSION['user_name'])){
         $name = $_SESSION['user_name'];
     }else{
         header('Location: home');

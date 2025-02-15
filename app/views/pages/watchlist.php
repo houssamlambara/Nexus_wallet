@@ -1,5 +1,5 @@
 <?php
-
+// index.php or bootstrap file
 $titre = 'Watchlist';
 ob_start();
 ?>
@@ -51,7 +51,7 @@ ob_start();
                                             <input type="hidden" name="crypto_price" value="<?php echo htmlspecialchars($item->coin_price); ?>">
 
                                             <!-- Amount Input -->
-                                            <input type="number" name="amount_in_usdt" placeholder="Amount in USDT" class="w-24 px-2 py-1 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" min="0.01" step="0.01" required>
+
 
                                             <!-- Buy Button -->
                                             <button type="submit" class="bg-green-500 hover:bg-green-600 text-white py-1 px-4 rounded-lg transition-colors duration-300">
