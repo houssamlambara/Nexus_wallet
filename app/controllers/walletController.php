@@ -58,38 +58,7 @@ class WalletController extends Controller
         ]);
     }
 
-    public function depositWallet()
-    {
-        // Check if user_id is set in session
-        if (!isset($_SESSION['user_id'])) {
-            echo "User ID is not set in session.";
-            return;
-        }
 
-        $user_id = $_SESSION['user_id'];
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $amount = htmlspecialchars($_POST['amount']);
-
-            if ($amount > 0) {
-                $this->userModel->updateBalance($user_id, $amount);
-            }
-
-            // Get updated balance
-            $newBalance = $this->userModel->getUserBalance($user_id);
-
-            // Check if new balance is fetched correctly
-            if (empty($newBalance)) {
-                echo "New balance is empty.";
-                return;
-            }
-
-            // Return only the balance section (HTMX replaces this part)
-            echo '<p id="balance-section" class="text-2xl font-bold text-green-600">'
-                . number_format($newBalance, 2) . ' USD</p>';
-            exit();
-        }
-    }
 
     public function userWalletData()
     {
@@ -111,21 +80,49 @@ class WalletController extends Controller
 
 
     }
-    public function updateBalance($userId, $newBalance)
+//    public function updateBalance($userId, $newBalance)
+//    {
+//        if (!is_numeric($newBalance) || $newBalance < 0) {
+//            return 'Invalid balance amount.';
+//        }
+//
+//        $result = $this->walletModel->updateUserBalance($userId, $newBalance);
+//
+//        if ($result) {
+//            return 'Balance updated successfully.';
+//        } else {
+//            return 'Failed to update balance.';
+//        }
+//    }
+    public function depositWallet()
     {
-        // Validate the input
-        if (!is_numeric($newBalance) || $newBalance < 0) {
-            return 'Invalid balance amount.';
+        if (!isset($_SESSION['user_id'])) {
+            echo "User ID is not set in session.";
+            return;
         }
 
-        // Update the balance using the model
-        $result = $this->walletModel->updateUserBalance($userId, $newBalance);
+        $user_id = $_SESSION['user_id'];
 
-        if ($result) {
-            return 'Balance updated successfully.';
-        } else {
-            return 'Failed to update balance.';
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $amount = htmlspecialchars($_POST['addAmount']);
+
+            if ($amount > 0) {
+                $currentBalance = $this->walletModel->getBalance($user_id);
+                $newBalance = $currentBalance + $amount;
+                if ($this->walletModel->updateUserBalance($user_id, $newBalance)) {
+                    $_SESSION['success'] = 'Balance added successfully';
+                } else {
+                    $_SESSION['error'] = 'Failed to add balance.';
+                }
+            } else {
+                $_SESSION['error'] = 'Invalid amount.';
+            }
+
+            header('Location: http://localhost/nexus_wallet/walletController/home');
+            exit();
         }
     }
+
+
 
 }

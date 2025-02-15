@@ -173,5 +173,20 @@ class wallet extends Controller {
                 return null;
             }
         }
+    public function updateUserBalance($userId, $newBalance)
+    {
+        $db = DatabaseConnection::getInstance()->getConnection();
+        $query = 'UPDATE users SET usdt_balance = :newBalance WHERE id = :userId';
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(':newBalance', $newBalance, PDO::PARAM_STR);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     }
