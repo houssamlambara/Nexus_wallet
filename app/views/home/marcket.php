@@ -125,7 +125,7 @@ var_dump($_SESSION['id'])
             </div>
         </div>
     </nav>
-    <section class="relative overflow-hidden px-12 max-h-[90vh]">
+    <section class="relative overflow-hidden px-12 min-h-[90vh] flex items-center">
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row items-center justify-between">
                 <div class="md:w-1/2 mb-10 md:mb-0">
