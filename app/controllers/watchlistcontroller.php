@@ -63,37 +63,25 @@ class WatchlistController extends Controller
 
     public function removeFromWatchlist()
     {
-        // Start the session (if not already started)
         session_start();
-
-        // Get the user ID from the session
         $userId = $_SESSION['id'] ?? null;
 
         if (!$userId) {
-            // Handle case where user is not logged in
             echo json_encode(['status' => 'error', 'message' => 'User not logged in.']);
             return;
         }
 
-        // Check if the ID of the crypto to remove is set and valid
         if (isset($_POST['crypto_id']) && !empty($_POST['crypto_id'])) {
-            // Get the crypto ID from the form
             $cryptoId = $_POST['crypto_id'];
-
-            // Call the model method to remove the crypto from the watchlist
             $result = $this->watchlistModel->removeFromWatchlist($userId, $cryptoId);
 
-            // Check if the removal was successful
             if ($result) {
-                // Success: You can redirect the user or show a success message
-                echo "The cryptocurrency has been removed from your watchlist.";
+                echo json_encode(['status' => 'success', 'message' => 'The cryptocurrency has been removed from your watchlist.']);
             } else {
-                // Failure: Handle the error (e.g., notify the user)
-                echo "There was an issue removing the cryptocurrency from your watchlist.";
+                echo json_encode(['status' => 'error', 'message' => 'There was an issue removing the cryptocurrency from your watchlist.']);
             }
         } else {
-            // If no crypto ID was passed, handle the error
-            echo "No cryptocurrency ID provided.";
+            echo json_encode(['status' => 'error', 'message' => 'No cryptocurrency ID provided.']);
         }
     }
 

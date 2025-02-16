@@ -7,8 +7,6 @@ $titre = 'Acheter des Cryptos';
 ob_start();
 
 
-// Debugging: Iterate over a copy of $data to avoid modifying the original array
-
 echo "</pre>";
 ?>
 

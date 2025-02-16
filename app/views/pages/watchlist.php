@@ -62,7 +62,9 @@ ob_start();
                                         <!-- Remove Button -->
                                         <form action="<?php echo URLROOT . '/WatchlistController/removeFromWatchlist'; ?>" method="POST">
                                             <input type="hidden" name="crypto_id" value="<?php echo htmlspecialchars($item->crypto_id); ?>">
-                                            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-1 px-4 rounded-lg transition-colors duration-300">
+
+                                            <!-- Remove Button -->
+                                            <button type="button" class="remove-from-watchlist bg-red-500 hover:bg-red-600 text-white py-1 px-4 rounded-lg transition-colors duration-300" data-crypto-id="<?php echo htmlspecialchars($item->crypto_id); ?>">
                                                 Remove
                                             </button>
                                         </form>
@@ -85,7 +87,69 @@ ob_start();
         </div>
     </div>
 
+
 <?php
 $content = ob_get_clean();
 include_once 'layout.php';
 ?>
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include SweetAlert JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    $(document).ready(function() {
+        // Listen for clicks on the "Remove" button
+        $('.remove-from-watchlist').click(function(e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            // Get the crypto ID from the button's data attribute
+            const cryptoId = $(this).data('crypto-id');
+
+            // Send an AJAX request to the controller
+            $.ajax({
+                url: '<?php echo URLROOT; ?>/WatchlistController/removeFromWatchlist', // URL to the controller
+                type: 'POST',
+                data: {
+                    crypto_id: cryptoId // Send the crypto ID to the server
+                },
+                success: function(response) {
+                    // Parse the JSON response
+                    const data = JSON.parse(response);
+
+                    // Check the status and show SweetAlert
+                    if (data.status === 'success') {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: data.message,
+                            icon: 'success',
+                            confirmButtonText: 'OK',
+                            theme: 'dark' // Add this line
+                        }).then(() => {
+                            // Reload the page to reflect the changes
+                            window.location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: data.message,
+                            icon: 'error',
+                            confirmButtonText: 'OK',
+                            theme: 'dark' // Add this line
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Handle AJAX errors
+                    Swal.fire({
+                        title: 'Error!',
+                        text: data.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                        theme: 'dark' // Add this line
+                    });
+                }
+            });
+        });
+    });
+</script>
