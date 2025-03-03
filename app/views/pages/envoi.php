@@ -25,10 +25,8 @@ ob_start();
                                 <div>
                                     <label for="crypto-select" class="block text-sm font-medium text-gray-300">Sélectionnez une crypto</label>
                                     <select id="crypto-select" name="crypto" class="block w-full mt-1 bg-dark-light border border-gray-700 text-white py-2 px-3 rounded-lg">
-                                        <option value="BTC">Bitcoin (BTC)</option>
-                                        <option value="ETH">Ethereum (ETH)</option>
-                                        <option value="LTC">Litecoin (LTC)</option>
-                                        <option value="USDT">USDT (USDT)</option>
+
+                                        <option selected value="USDT">USDT (USDT)</option>
                                         <!-- Add more cryptos as needed -->
                                     </select>
                                 </div>

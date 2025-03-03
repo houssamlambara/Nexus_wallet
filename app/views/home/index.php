@@ -77,16 +77,16 @@
                 </div>
 
                 <div class="hidden md:flex space-x-8">
-                    <a href="<?php echo  URLROOT . 'WatchlistController/chihaja' ?>" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
+                    <a href="<?php echo  URLROOT . 'achat' ?>" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
                         <i class="fas fa-shopping-cart"></i>
                         <span>Buy</span>
                     </a>
-                    <a href="#" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
+                    <a href="<?php echo  URLROOT . 'vente' ?>" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
                         <i class="fas fa-dollar-sign"></i>
                         <span>Sell</span>
                     </a>
 
-                    <a href="<?php echo URLROOT . 'marcket/marcket1'; ?>" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
+                    <a href="<?php echo 'marcket/marcket1'; ?>" class="flex items-center space-x-2 hover:text-blue-500 transition-colors">
                         <i class="fas fa-chart-line"></i>
                         <span>Markets</span>
                     </a>
@@ -119,7 +119,7 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="relative overflow-hidden px-12 max-h-[90vh]">
+    <section class="relative overflow-hidden px-12 min-h-[90vh] flex items-center">
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row items-center justify-between">
                 <div class="md:w-1/2 mb-10 md:mb-0">
@@ -132,10 +132,10 @@
                         Join CritoX - the most trusted platform with advanced security and lightning-fast execution. Start your crypto journey today!
                     </p>
                     <div class="flex space-x-4">
-                        <button class="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-lg transition-colors flex items-center space-x-2">
+                        <a href="<?php echo  URLROOT . 'walletController/home' ?>" class="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-lg transition-colors flex items-center space-x-2">
                             <i class="fas fa-rocket"></i>
                             <span>Get Started</span>
-                        </button>
+                        </a>
                         <button class="border border-gray-600 hover:bg-gray-800 px-8 py-3 rounded-lg transition-colors flex items-center space-x-2">
                             <i class="fas fa-play"></i>
                             <span>Watch Demo</span>

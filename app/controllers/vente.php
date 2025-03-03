@@ -4,7 +4,6 @@
 
 
 
-
     class vente extends Controller{
 
         public function index(){
